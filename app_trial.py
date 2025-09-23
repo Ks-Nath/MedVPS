@@ -24,7 +24,7 @@ app_mode = st.sidebar.radio("Go to", ["Home", "Calculator", "Drug Assistant", "N
 if app_mode == "Home":
     st.title("🏥 Welcome to the Medical Suite")
     st.markdown("""
-    This app is designed for doctors, medical students, and healthcare professionals.  
+    This app is DESIGNED for doctors, medical students, and healthcare professionals.  
     Use the sidebar to navigate to:
     - **Calculator:** Access medical calculators by specialty  
     - **Drug Assistant:** Search interactions, dosages, side effects  
