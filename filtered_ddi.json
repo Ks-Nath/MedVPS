@@ -1,0 +1,252 @@
+{
+  "Paracetamol": {
+    "Aspirin": {
+      "type": "Pharmacodynamic",
+      "severity": "no interaction",
+      "description": "NO Potential interaction between Paracetamol and Aspirin."
+    },
+    "Warfarin": {
+      "type": "Pharmacodynamic",
+      "severity": "monitor closely",
+      "description": "Acetaminophen increases effects of warfarin by anticoagulation. Use caution/monitor."
+    },
+    "Amoxicillin": {
+      "type": "Pharmacodynamic",
+      "severity": "no interaction",
+      "description": "NO Potential interaction between Paracetamol and Amoxicillin."
+    },
+    "Ibuprofen": {
+      "type": "Pharmacodynamic",
+      "severity": "no interaction",
+      "description": "NO Potential interaction between Paracetamol and Ibuprofen."
+    },
+    "Metformin": {
+      "type": "Pharmacodynamic",
+      "severity": "no interaction",
+      "description": "NO Potential interaction between Paracetamol and Metformin."
+    },
+    "Lisinopril": {
+      "type": "Pharmacodynamic",
+      "severity": "no interaction",
+      "description": "NO Potential interaction between Paracetamol and Lisinopril."
+    },
+    "Amlodipine": {
+      "type": "Pharmacodynamic",
+      "severity": "no interaction",
+      "description": "NO Potential interaction between Paracetamol and Amlodipine."
+    },
+    "Ciprofloxacin": {
+      "type": "Pharmacodynamic",
+      "severity": "no interaction",
+      "description": "NO Potential interaction between Paracetamol and Ciprofloxacin."
+    },
+    "Omeprazole": {
+      "type": "Pharmacodynamic",
+      "severity": "no interaction",
+      "description": "NO Potential interaction between Paracetamol and Omeprazole."
+    }
+  },
+  "Aspirin": {
+    "Warfarin": {
+      "type": "Pharmacodynamic",
+      "severity": "monitor closely",
+      "description": "Aspirin increases effects of warfarin by anticoagulation. Modify Therapy/Monitor Closely. Avoid coadministration of chronic high-dose aspirin. Aspirin's antiplatelet properties may increase anticoagulation effect of warfarin."
+    },
+    "Amoxicillin": {
+      "type": "Pharmacodynamic",
+      "severity": "Moderate",
+      "description": "Potential interaction between Aspirin and Amoxicillin."
+    },
+    "Ibuprofen": {
+      "type": "Pharmacodynamic",
+      "severity": "Moderate",
+      "description": "Potential interaction between Aspirin and Ibuprofen."
+    },
+    "Metformin": {
+      "type": "Pharmacodynamic",
+      "severity": "Moderate",
+      "description": "Potential interaction between Aspirin and Metformin."
+    },
+    "Lisinopril": {
+      "type": "Pharmacodynamic",
+      "severity": "Moderate",
+      "description": "Potential interaction between Aspirin and Lisinopril."
+    },
+    "Amlodipine": {
+      "type": "Pharmacodynamic",
+      "severity": "Moderate",
+      "description": "Potential interaction between Aspirin and Amlodipine."
+    },
+    "Ciprofloxacin": {
+      "type": "Pharmacodynamic",
+      "severity": "Moderate",
+      "description": "Potential interaction between Aspirin and Ciprofloxacin."
+    },
+    "Omeprazole": {
+      "type": "Pharmacodynamic",
+      "severity": "Moderate",
+      "description": "Potential interaction between Aspirin and Omeprazole."
+    }
+  },
+  "Sildenafil": {
+    "Nitroglycerin": {
+      "type": "Pharmacodynamic",
+      "severity": "contraindicated",
+      "description": "Additive vasodilation. Potentially fatal hypotension."
+    }
+  },
+  "Warfarin": {
+    "Amoxicillin": {
+      "type": "Pharmacodynamic",
+      "severity": "monitor closely",
+      "description": "Potential interaction between Warfarin and Amoxicillin. Use Caution/Monitor. Amoxicillin increases effects of warfarin by Other (see comment). Comment: Amoxicillin may enhance anticoagulant effect of vitamin K antagonists."
+    },
+    "Ibuprofen": {
+      "type": "Pharmacodynamic",
+      "severity": "monitor closely",
+      "description": "Either increases effects of the other by pharmacodynamic synergism. Modify Therapy/Monitor Closely. Drugs with antiplatelet properties may increase anticoagulation effect of warfarin."
+    },
+    "Metformin": {
+      "type": "Pharmacodynamic",
+      "severity": "no interaction",
+      "description": "NO Potential interaction between Warfarin and Metformin."
+    },
+    "Lisinopril": {
+      "type": "Pharmacodynamic",
+      "severity": "no interaction",
+      "description": "NO Potential interaction between Warfarin and Lisinopril."
+    },
+    "Amlodipine": {
+      "type": "Pharmacodynamic",
+      "severity": "no interaction",
+      "description": "NO Potential interaction between Warfarin and Amlodipine."
+    },
+    "Ciprofloxacin": {
+      "type": "Pharmacodynamic",
+      "severity": "monitor closely",
+      "description": "Ciprofloxacin increases effects of Warfarin by unspecified interaction mechanism. Use Caution/Monitor."
+    },
+    "Omeprazole": {
+      "type": "Pharmacodynamic",
+      "severity": "monitor closely",
+      "description": "omeprazole will increase the level or effect of warfarin by Other (see comment). Use Caution/Monitor. Warfarin's less potent R-enantiomer is metabolized in part by CYP3A4 (and also CYP1A2 and CYP2C19). Monitor INR more frequently if coadministered with inhibitors of these isoenzymes and adjust warfarin dose if needed."
+    }
+  },
+  "Amoxicillin": {
+    "Ibuprofen": {
+      "type": "Pharmacodynamic",
+      "severity": "Moderate",
+      "description": "Potential interaction between Amoxicillin and Ibuprofen."
+    },
+    "Metformin": {
+      "type": "Pharmacodynamic",
+      "severity": "Moderate",
+      "description": "Potential interaction between Amoxicillin and Metformin."
+    },
+    "Lisinopril": {
+      "type": "Pharmacodynamic",
+      "severity": "Moderate",
+      "description": "Potential interaction between Amoxicillin and Lisinopril."
+    },
+    "Amlodipine": {
+      "type": "Pharmacodynamic",
+      "severity": "Moderate",
+      "description": "Potential interaction between Amoxicillin and Amlodipine."
+    },
+    "Ciprofloxacin": {
+      "type": "Pharmacodynamic",
+      "severity": "Moderate",
+      "description": "Potential interaction between Amoxicillin and Ciprofloxacin."
+    },
+    "Omeprazole": {
+      "type": "Pharmacodynamic",
+      "severity": "Moderate",
+      "description": "Potential interaction between Amoxicillin and Omeprazole."
+    }
+  },
+  "Ibuprofen": {
+    "Metformin": {
+      "type": "Pharmacodynamic",
+      "severity": "Moderate",
+      "description": "Potential interaction between Ibuprofen and Metformin."
+    },
+    "Lisinopril": {
+      "type": "Pharmacodynamic",
+      "severity": "Moderate",
+      "description": "Potential interaction between Ibuprofen and Lisinopril."
+    },
+    "Amlodipine": {
+      "type": "Pharmacodynamic",
+      "severity": "Moderate",
+      "description": "Potential interaction between Ibuprofen and Amlodipine."
+    },
+    "Ciprofloxacin": {
+      "type": "Pharmacodynamic",
+      "severity": "Moderate",
+      "description": "Potential interaction between Ibuprofen and Ciprofloxacin."
+    },
+    "Omeprazole": {
+      "type": "Pharmacodynamic",
+      "severity": "Moderate",
+      "description": "Potential interaction between Ibuprofen and Omeprazole."
+    }
+  },
+  "Metformin": {
+    "Lisinopril": {
+      "type": "Pharmacodynamic",
+      "severity": "Moderate",
+      "description": "Potential interaction between Metformin and Lisinopril."
+    },
+    "Amlodipine": {
+      "type": "Pharmacodynamic",
+      "severity": "Moderate",
+      "description": "Potential interaction between Metformin and Amlodipine."
+    },
+    "Ciprofloxacin": {
+      "type": "Pharmacodynamic",
+      "severity": "Moderate",
+      "description": "Potential interaction between Metformin and Ciprofloxacin."
+    },
+    "Omeprazole": {
+      "type": "Pharmacodynamic",
+      "severity": "Moderate",
+      "description": "Potential interaction between Metformin and Omeprazole."
+    }
+  },
+  "Lisinopril": {
+    "Amlodipine": {
+      "type": "Pharmacodynamic",
+      "severity": "Moderate",
+      "description": "Potential interaction between Lisinopril and Amlodipine."
+    },
+    "Ciprofloxacin": {
+      "type": "Pharmacodynamic",
+      "severity": "Moderate",
+      "description": "Potential interaction between Lisinopril and Ciprofloxacin."
+    },
+    "Omeprazole": {
+      "type": "Pharmacodynamic",
+      "severity": "Moderate",
+      "description": "Potential interaction between Lisinopril and Omeprazole."
+    }
+  },
+  "Amlodipine": {
+    "Ciprofloxacin": {
+      "type": "Pharmacodynamic",
+      "severity": "Moderate",
+      "description": "Potential interaction between Amlodipine and Ciprofloxacin."
+    },
+    "Omeprazole": {
+      "type": "Pharmacodynamic",
+      "severity": "Moderate",
+      "description": "Potential interaction between Amlodipine and Omeprazole."
+    }
+  },
+  "Ciprofloxacin": {
+    "Omeprazole": {
+      "type": "Pharmacodynamic",
+      "severity": "Moderate",
+      "description": "Potential interaction between Ciprofloxacin and Omeprazole."
+    }
+  }
+}
