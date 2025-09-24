@@ -686,42 +686,9 @@ elif app_mode == "Drug Assistant":
 elif app_mode == "Normal Values":
     st.title("📊 Normal Values")
 
-    # Normal values grouped by system
-    normal_values = {
-        "Cardiovascular": {
-            "Blood Pressure": "Systolic 90–120 mmHg, Diastolic 60–80 mmHg",
-            "Pulse Rate": "60 – 100 bpm",
-            "Mean Arterial Pressure": "70 – 100 mmHg",
-        },
-        "Respiratory": {
-            "Respiratory Rate": "12 – 20 breaths/min",
-            "Oxygen Saturation (SpO₂)": "95 – 100%",
-            "PaO₂": "80 – 100 mmHg",
-            "PaCO₂": "35 – 45 mmHg",
-        },
-        "Renal / Electrolytes": {
-            "Sodium (Na⁺)": "135 – 145 mmol/L",
-            "Potassium (K⁺)": "3.5 – 5.0 mmol/L",
-            "Creatinine": "0.7 – 1.3 mg/dL (men), 0.6 – 1.1 mg/dL (women)",
-            "Urea": "15 – 40 mg/dL",
-        },
-        "Hematology": {
-            "Hemoglobin (Hb)": "13.5 – 17.5 g/dL (men), 12.0 – 15.5 g/dL (women)",
-            "WBC Count": "4,000 – 11,000 /µL",
-            "Platelet Count": "150,000 – 450,000 /µL",
-            "Hematocrit (Hct)": "41 – 53% (men), 36 – 46% (women)",
-        },
-        "Metabolic / Endocrine": {
-            "Random Blood Sugar": "< 140 mg/dL",
-            "Fasting Blood Sugar": "70 – 99 mg/dL",
-            "Postprandial Blood Sugar": "< 140 mg/dL",
-            "HbA1c": "< 5.7% (normal)",
-        },
-        "General": {
-            "Body Temperature": "36.5 – 37.5 °C",
-            "BMI": "18.5 – 24.9 kg/m²",
-        }
-    }
+    # Load JSON file
+    with open("normal_values.json", "r", encoding="utf-8") as f:
+        normal_values = json.load(f)
 
     # Search box
     search_query = st.text_input("🔍 Search Normal Value")
