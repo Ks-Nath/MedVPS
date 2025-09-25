@@ -33,13 +33,17 @@ if app_mode == "Home":
     ---
     🔬 *All tools are built for educational and professional support only.*
         
-        *Designed by K.S.Srinath. Want to know more about me? visit ksnath.com*
-    """)
+        Designed by K.S.Srinath.
+    """
+    )
+    st.markdown("""
+    Want to know more about me? <a href="https://ksnath.com" target="_blank" rel="noopener noreferrer">Visit ksnath.com</a>
+    """, unsafe_allow_html=True)
 
 
 # ------------------ CALCULATORS ------------------
 elif app_mode == "Calculator":
-    st.title("🧮 Medical Calculators")
+    st.title("📟 Medical Calculators")
     #sri
     # Define calculator categories
     calculators_by_category = {
