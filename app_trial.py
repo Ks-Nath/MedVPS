@@ -2,10 +2,9 @@ import streamlit as st
 import json
 from itertools import combinations
 import math
-from streamlit_tags import st_tags
  
 # ------------------ APP CONFIG ------------------
-st.set_page_config(page_title="Advanced Medical App", layout="wide")
+st.set_page_config(page_title="Crux Med", layout="wide")
 
 # ------------------ LOAD DATA ------------------
 # Load NLEM 2022 drugs
@@ -22,16 +21,19 @@ app_mode = st.sidebar.radio("Go to", ["Home", "Calculator", "Drug Assistant", "N
 
 # ------------------ HOME PAGE ------------------
 if app_mode == "Home":
-    st.title("🏥 Welcome to the Medical Suite")
+    st.title("🏥 Welcome to the complete Medical Suite")
     st.markdown("""
     This app is designed for doctors, medical students, and healthcare professionals.  
     Use the sidebar to navigate to:
-    - **Calculator:** Access medical calculators by specialty  
-    - **Drug Assistant:** Search interactions, dosages, side effects  
-    - **Indian Protocols:** View evidence-based clinical protocols
+    - **Calculator:** Access medical calculators by specialty.
+    - **Drug Assistant:** Search drug interactions.
+    - **Normal Values:** Essential normal values sorted by system.
+    - **Indian Protocols:** Coming Soon.
     
     ---
     🔬 *All tools are built for educational and professional support only.*
+        
+        *Designed by K.S.Srinath. Want to know more about me? visit ksnath.com*
     """)
 
 
