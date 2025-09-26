@@ -6,6 +6,15 @@ import math
 # ------------------ APP CONFIG ------------------
 st.set_page_config(page_title="Crux Med", layout="wide")
 
+# ------------------- Hide Hamburger Menu -------------------
+hide_hamburger_css = """
+<style>
+/* Hide the top-right hamburger menu */
+#MainMenu {visibility: hidden;}
+</style>
+"""
+st.markdown(hide_hamburger_css, unsafe_allow_html=True)
+
 # ------------------ LOAD DATA ------------------
 # Load NLEM 2022 drugs
 with open("nlem_2022.json", "r") as f:
