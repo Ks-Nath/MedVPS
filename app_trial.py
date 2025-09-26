@@ -602,23 +602,44 @@ elif app_mode == "Calculator":
 #             st.success("✅ No major interactions found.")
 
 elif app_mode == "Drug Assistant":
+    import json
+    from itertools import combinations
+
     # -----------------------------
     # Load JSON
     # -----------------------------
     with open("filtered_ddi.json", "r") as f:
         ddi_data = json.load(f)
 
-    # Build list of all drugs
-    nlem_drugs = list(ddi_data.keys())
-    for interactions in ddi_data.values():
-        for drug in interactions.keys():
-            if drug not in nlem_drugs:
-                nlem_drugs.append(drug)
-    nlem_drugs = sorted(nlem_drugs)
+    # Normalize drug names
+    def normalize(name):
+        return name.strip().lower()
+
+    # Build symmetric normalized interaction map
+    normalized_ddi = {}
+    for d1, interactions in ddi_data.items():
+        d1_norm = normalize(d1)
+        if d1_norm not in normalized_ddi:
+            normalized_ddi[d1_norm] = {}
+
+        for d2, interaction in interactions.items():
+            d2_norm = normalize(d2)
+
+            # Ensure both directions exist
+            if d1_norm not in normalized_ddi:
+                normalized_ddi[d1_norm] = {}
+            if d2_norm not in normalized_ddi:
+                normalized_ddi[d2_norm] = {}
+
+            normalized_ddi[d1_norm][d2_norm] = interaction
+            normalized_ddi[d2_norm][d1_norm] = interaction  # 🔄 reverse mapping
+
+    # Build master drug list
+    nlem_drugs = sorted(set(normalized_ddi.keys()))
 
     # Helper to get interaction
     def get_interaction(d1, d2):
-        return ddi_data.get(d1, {}).get(d2) or ddi_data.get(d2, {}).get(d1)
+        return normalized_ddi.get(normalize(d1), {}).get(normalize(d2))
 
     # -----------------------------
     # Streamlit App
@@ -626,19 +647,19 @@ elif app_mode == "Drug Assistant":
     st.title("💊 Drug Assistant")
     st.subheader("Drug Interaction Checker")
 
-    # Initialize session state
     if "selected_drugs" not in st.session_state:
         st.session_state.selected_drugs = []
 
-    # ---------------- Search like calculator ----------------
+    # ---------------- Search ----------------
     search_query = st.text_input("🔍 Search Drug", "")
 
     if search_query:
-        matching_drugs = [drug for drug in nlem_drugs if search_query.lower() in drug.lower()]
+        query_norm = normalize(search_query)
+        matching_drugs = [drug for drug in nlem_drugs if query_norm in drug]
         if matching_drugs:
             selected_drug = st.selectbox("Matching Drugs", matching_drugs, key="drug_select")
             if st.button("➕ Add Drug"):
-                if selected_drug not in st.session_state.selected_drugs:
+                if normalize(selected_drug) not in [normalize(d) for d in st.session_state.selected_drugs]:
                     st.session_state.selected_drugs.append(selected_drug)
         else:
             st.info("No matching drugs found.")
@@ -670,13 +691,13 @@ elif app_mode == "Drug Assistant":
                     st.error(f"❌ {d1} + {d2} → Serious / Contraindicated: {desc}")
                 else:
                     st.info(f"{d1} + {d2} → {severity.capitalize()}: {desc}")
-
                 found = True
             else:
                 st.info(f"ℹ️ {d1} + {d2} → No interaction data available.")
 
         if not found:
             st.success("✅ No major interactions found.")
+
         
 #filtered_ddi.json is being used.
 
