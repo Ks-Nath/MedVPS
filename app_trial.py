@@ -2,6 +2,7 @@ import streamlit as st
 import json
 from itertools import combinations
 import math
+from datetime import date, timedelta
  
 # ------------------ APP CONFIG ------------------
 st.set_page_config(page_title="Crux Med", layout="wide")
@@ -65,7 +66,7 @@ elif app_mode == "Calculator":
     "Hematology": ["INR", "NLR", "PLR"],
     "Gastroenterology": ["Child-Pugh", "MELD", "APRI"],
     "Critical Care": ["SOFA", "APACHE II", "SIRS"],
-    "Obstetrics": ["Gestational Age", "Bishop Score", "BMI in Pregnancy"]
+    "Obstetrics": ["Gestational Age", "EDC Calculator", "Bishop Score", "BMI in Pregnancy"]
 }
 
     # Sidebar selection
@@ -554,6 +555,107 @@ elif app_mode == "Calculator":
         weeks = ga_days // 7
         days = ga_days % 7
         st.success(f"Estimated Gestational Age: {weeks} weeks and {days} days")
+
+    elif selected_calculator == "EDC Calculator":
+        def days_to_weeks_days(days):
+            weeks = days // 7
+            days_rem = days % 7
+            return weeks, days_rem
+
+        def format_weeks_days(days):
+            w, d = days_to_weeks_days(days)
+            return f"{w} week{'s' if w != 1 else ''} {d} day{'s' if d != 1 else ''}"
+
+        st.title("⚕️ EDC / EDD Calculator")
+        st.caption("Estimate date of delivery and current gestational age. (Designed for clinical use — always confirm clinically.)")
+
+        st.markdown("---")
+        method = st.radio("Choose calculation method:", ["Last Menstrual Period (LMP) — Naegele's rule", 
+                                                        "Conception date (if known)", 
+                                                        "Ultrasound (CRL / Gestational Age)"])
+
+        today = date.today()
+
+        # Common inputs
+        if method == "Last Menstrual Period (LMP) — Naegele's rule":
+            st.write("**Using LMP + cycle length adjustment**")
+            lmp = st.date_input("Date of Last Menstrual Period (LMP)", value=today - timedelta(weeks=12))
+            cycle_len = st.number_input("Average menstrual cycle length (days)", min_value=21, max_value=45, value=28, step=1,
+                                        help="If not 28, EDD is adjusted by (cycle_len - 28) days.")
+            # Calculation: Naegele's rule baseline is LMP + 280 days (40 weeks). Adjust for cycle length.
+            edd = lmp + timedelta(days=280 + (cycle_len - 28))
+            # gestational age from LMP to today
+            gest_days = (today - lmp).days
+            gest_days = max(0, gest_days)
+            gest_weeks_days = format_weeks_days(gest_days)
+            st.markdown("### Result")
+            st.success(f"Estimated Date of Delivery (EDD): **{edd.strftime('%d-%b-%Y')}**")
+            st.info(f"Current gestational age (from LMP): **{gest_weeks_days}** ({gest_days} days)")
+            st.markdown("**Explanation:** Naegele's rule: LMP + 280 days (40 weeks). Adjust by (cycle_len - 28) days if cycle differs from 28 days.")
+
+        elif method == "Conception date (if known)":
+            st.write("**Using conception date**")
+            conc = st.date_input("Conception date", value=today - timedelta(weeks=10))
+            # Typical interval conception -> EDD is ~266 days (38 weeks from conception)
+            edd = conc + timedelta(days=266)
+            gest_days = (today - conc).days + 14  # convention: gestational age counts from LMP ~2 weeks before conception
+            # ensure non-negative
+            if gest_days < 0:
+                gest_days = 0
+            gest_weeks_days = format_weeks_days(gest_days)
+            st.markdown("### Result")
+            st.success(f"Estimated Date of Delivery (EDD): **{edd.strftime('%d-%b-%Y')}**")
+            st.info(f"Current gestational age (approx): **{gest_weeks_days}** ({gest_days} days)")
+            st.markdown("**Explanation:** When conception date is known, EDD ≈ conception + 266 days (~38 weeks). Gestational age is conventionally ~2 weeks more than time since conception (i.e., from LMP).")
+
+        else:  # Ultrasound method
+            st.write("**Using an ultrasound estimate**")
+            us_date = st.date_input("Ultrasound date", value=today - timedelta(weeks=12))
+            ga_weeks = st.number_input("Gestational age on ultrasound — weeks", min_value=0, max_value=45, value=12, step=1)
+            ga_days = st.number_input("Gestational age on ultrasound — extra days", min_value=0, max_value=6, value=0, step=1)
+            # total gestational days at time of ultrasound
+            ga_at_us_days = ga_weeks * 7 + ga_days
+            # EDD = ultrasound_date + (280 - ga_at_us_days) days
+            edd = us_date + timedelta(days=(280 - ga_at_us_days))
+            # current GA = ga_at_us + (today - us_date)
+            ga_today_days = ga_at_us_days + (today - us_date).days
+            if ga_today_days < 0:
+                ga_today_days = 0
+            ga_today = format_weeks_days(ga_today_days)
+            st.markdown("### Result")
+            st.success(f"Estimated Date of Delivery (EDD): **{edd.strftime('%d-%b-%Y')}**")
+            st.info(f"Gestational age today (based on ultrasound): **{ga_today}** ({ga_today_days} days)")
+            st.markdown("**Explanation:** Ultrasound-based dating uses the GA measured on scan. EDD = scan date + (280 days − GA at scan). Ultrasound dating is preferred in the first trimester for accuracy.")
+
+        st.markdown("---")
+        # Additional helpful info block
+        st.markdown("### Quick references")
+        st.write(
+            "- Naegele's rule (LMP): **LMP + 280 days (40 weeks)**. Adjust for cycle length.\n"
+            "- Conception method: **conception + 266 days (~38 weeks from conception)**.\n"
+            "- Ultrasound: preferred when LMP unknown or cycles irregular, especially 1st trimester."
+        )
+
+        # Optional: copy results text for pasting / clinic notes
+        st.markdown("### Copyable summary")
+        if method == "Last Menstrual Period (LMP) — Naegele's rule":
+            if lmp:
+                summary = (f"Method: LMP\nLMP: {lmp.strftime('%d-%b-%Y')}\n"
+                        f"Cycle length: {cycle_len} days\nEDD: {edd.strftime('%d-%b-%Y')}\n"
+                        f"Gestational age today: {gest_weeks_days} ({gest_days} days)")
+                st.code(summary)
+        elif method == "Conception date (if known)":
+            summary = (f"Method: Conception date\nConception: {conc.strftime('%d-%b-%Y')}\n"
+                    f"EDD: {edd.strftime('%d-%b-%Y')}\nGestational age today (approx): {gest_weeks_days} ({gest_days} days)")
+            st.code(summary)
+        else:
+            summary = (f"Method: Ultrasound\nScan date: {us_date.strftime('%d-%b-%Y')}\n"
+                    f"GA at scan: {ga_weeks} weeks + {ga_days} days\nEDD: {edd.strftime('%d-%b-%Y')}\n"
+                    f"GA today (based on scan): {ga_today} ({ga_today_days} days)")
+            st.code(summary)
+
+        st.markdown("---")
+        st.caption("Note: This tool provides estimates. Always corroborate with clinical judgement and local guidelines.")
 
     elif selected_calculator == "Bishop Score":
         dilation = st.number_input("Cervical dilation (cm)", min_value=0)
