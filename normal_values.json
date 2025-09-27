@@ -28,8 +28,8 @@
   },
   "Renal / Electrolytes": {
     "Sodium (Na⁺)": "135 – 145 mmol/L",
-    "Potassium (K⁺)": "3.5 – 5.0 mmol/L",
-    "Chloride (Cl⁻)": "98 – 106 mmol/L",
+    "Potassium (K⁺)": "3.6 – 5.0 mmol/L",
+    "Chloride (Cl⁻)": "95 – 107 mmol/L",
     "Calcium (Ca²⁺)": "8.5 – 10.5 mg/dL",
     "Ionized Calcium": "4.5 – 5.6 mg/dL",
     "Magnesium (Mg²⁺)": "1.5 – 2.5 mg/dL",
@@ -73,9 +73,9 @@
     "VLDL": "2 – 30 mg/dL"
   },
   "Thyroid Function": {
-    "TSH": "0.4 – 4.0 µIU/mL",
-    "Free T4": "0.8 – 1.8 ng/dL",
-    "Free T3": "2.3 – 4.2 pg/mL",
+    "TSH": "0.2 – 4.5 mIU/mL",
+    "Free T4": "0.8 – 2.7 ng/dL",
+    "Free T3": "2.1 – 4.4 pg/mL",
     "Total T4": "5.0 – 12.0 µg/dL",
     "Total T3": "80 – 200 ng/dL"
   },

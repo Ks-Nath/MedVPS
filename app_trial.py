@@ -66,7 +66,7 @@ elif app_mode == "Calculator":
     "Hematology": ["INR", "NLR", "PLR"],
     "Gastroenterology": ["Child-Pugh", "MELD", "APRI"],
     "Critical Care": ["SOFA", "APACHE II", "SIRS"],
-    "Obstetrics": ["Gestational Age", "EDC Calculator", "Bishop Score", "BMI in Pregnancy"]
+    "Obstetrics": ["Gestational Age", "EDC Calculator", "EDC to GA", "Bishop Score", "BMI in Pregnancy"]
 }
 
     # Sidebar selection
@@ -527,10 +527,12 @@ elif app_mode == "Calculator":
 
     # ---------- CRITICAL CARE ----------
     elif selected_calculator == "SOFA":
+        st.info("Coming soon.")
         st.info("SOFA Score requires multiple organ parameters. Add inputs for PaO2/FiO2, Platelets, Bilirubin, MAP, GCS, Creatinine.")
         st.info("You can calculate total score by assigning 0-4 points per organ system.")
 
     elif selected_calculator == "APACHE II":
+        st.info("Coming soon.")
         st.info("APACHE II requires age, vitals, lab values, and chronic health status.")
         st.info("You can sum points to get the APACHE II score.")
 
@@ -657,6 +659,117 @@ elif app_mode == "Calculator":
         st.markdown("---")
         st.caption("Note: This tool provides estimates. Always corroborate with clinical judgement and local guidelines.")
 
+    elif selected_calculator == "EDC to GA":
+        def days_to_weeks_days(days: int):
+            weeks = days // 7
+            days_rem = days % 7
+            return weeks, days_rem
+
+        def format_weeks_days(days: int):
+            w, d = days_to_weeks_days(days)
+            return f"{w} week{'s' if w != 1 else ''} {d} day{'s' if d != 1 else ''}"
+
+        def trimester_from_ga_days(ga_days: int):
+            # Using conventional cutoffs:
+            # 1st trimester: <14 weeks (0 - 13+6)
+            # 2nd trimester: 14 - 27+6 weeks
+            # 3rd trimester: >=28 weeks
+            weeks = ga_days / 7
+            if weeks < 14:
+                return "1st trimester"
+            elif weeks < 28:
+                return "2nd trimester"
+            else:
+                return "3rd trimester"
+
+        st.title("⚕️ EDC → Gestational Age (GA) Calculator")
+        st.caption("Enter the estimated date of delivery (EDC/EDD) to compute current gestational age and related info.")
+
+        st.markdown("---")
+        col1, col2 = st.columns(2)
+
+        with col1:
+            edd = st.date_input("Estimated Date of Delivery (EDC / EDD)", value=date.today() + timedelta(weeks=20))
+            ref_date = st.date_input("Reference date (for GA calculation)", value=date.today(), help="Defaults to today. Change to calculate GA on another date.")
+        with col2:
+            show_progress = st.checkbox("Show GA progress bar (toward 40 weeks)", value=True)
+            show_conception = st.checkbox("Show estimated conception date", value=True)
+            show_summary = st.checkbox("Show copyable summary", value=True)
+
+        # Constants
+        TOTAL_GA_DAYS = 280  # 40 weeks from LMP (Naegele)
+        CONCEPTION_OFFSET_DAYS = 266  # approx. from conception to EDD
+
+        # calculations
+        days_until_edd = (edd - ref_date).days  # positive -> days remaining; negative -> overdue by abs(...)
+        ga_days = TOTAL_GA_DAYS - days_until_edd
+        # allow negative (if reference date well before conception) but clamp for display
+        if ga_days < 0:
+            ga_days_display = 0
+        else:
+            ga_days_display = ga_days
+
+        ga_weeks_days_text = format_weeks_days(ga_days_display)
+        trimester = trimester_from_ga_days(ga_days)
+        conception_date = edd - timedelta(days=CONCEPTION_OFFSET_DAYS)
+
+        # Display results
+        st.markdown("### Result")
+        if days_until_edd > 0:
+            st.success(f"EDD: **{edd.strftime('%d-%b-%Y')}** — {days_until_edd} day(s) remaining")
+        elif days_until_edd == 0:
+            st.warning(f"EDD is today: **{edd.strftime('%d-%b-%Y')}**")
+        else:
+            st.error(f"EDD passed {abs(days_until_edd)} day(s) ago (Overdue). EDD: **{edd.strftime('%d-%b-%Y')}**")
+
+        # Gestational age
+        if ga_days < 0:
+            st.info(f"Estimated GA on {ref_date.strftime('%d-%b-%Y')}: **< 0 days** (before pregnancy dating).")
+        else:
+            st.info(f"Estimated Gestational Age on {ref_date.strftime('%d-%b-%Y')}: **{ga_weeks_days_text}** ({ga_days} days)")
+
+        # Trimester & conception
+        st.write(f"**Trimester:** {trimester}")
+        if show_conception:
+            st.write(f"**Estimated conception date:** {conception_date.strftime('%d-%b-%Y')} (≈ EDD − 266 days)")
+
+        # Progress bar (toward 280 days / 40 weeks)
+        if show_progress:
+            progress_pct = (ga_days / TOTAL_GA_DAYS) if TOTAL_GA_DAYS else 0
+            # cap progress for UI (allow >100 to show overdue)
+            display_pct = max(0.0, min(progress_pct, 1.0))
+            st.write(f"**Progress toward 40 weeks:** {round(progress_pct*100, 1)}%")
+            st.progress(display_pct)
+
+        # Warnings
+        if ga_days >= 294:  # >=42 weeks (294 days)
+            st.warning("⚠️ Post-term (≥42 weeks). Consider clinical assessment.")
+        if ga_days > 280 and ga_days < 294:
+            st.info("Note: Term (>40 weeks) — monitor for labour and follow local guidelines.")
+
+        st.markdown("---")
+
+        # Copyable summary
+        if show_summary:
+            summary_lines = [
+                f"Method: EDC → GA calculator",
+                f"Reference date: {ref_date.strftime('%d-%b-%Y')}",
+                f"EDC (EDD): {edd.strftime('%d-%b-%Y')}",
+            ]
+            if ga_days >= 0:
+                summary_lines.append(f"Gestational age: {ga_weeks_days_text} ({ga_days} days)")
+            else:
+                summary_lines.append(f"Gestational age: <0 days (reference date before pregnancy dating)")
+            summary_lines.append(f"Trimester: {trimester}")
+            summary_lines.append(f"Estimated conception date: {conception_date.strftime('%d-%b-%Y')}")
+            summary_lines.append(f"Days until EDD: {days_until_edd} (positive = remaining; negative = overdue)")
+
+            summary_text = "\n".join(summary_lines)
+            st.code(summary_text)
+
+        st.markdown("---")
+        st.caption("Estimates only — always confirm with clinical judgement and local guidance (ultrasound dating preferred for accuracy).")
+            
     elif selected_calculator == "Bishop Score":
         dilation = st.number_input("Cervical dilation (cm)", min_value=0)
         effacement = st.number_input("Effacement (%)", min_value=0, max_value=100)
@@ -855,3 +968,16 @@ elif app_mode == "Normal Values":
 elif app_mode == "Indian Protocols":
     st.title("📋 Indian Protocols")
     st.info("Coming soon: Indian medical treatment protocols and clinical pathways.")
+
+st.markdown("---")
+
+# Disclaimer footer
+st.markdown(
+    """
+    <div style='text-align: center; color: gray; font-size: 14px;'>
+    ⚠️ <b>Disclaimer:</b> This app is for educational & informational purposes only.  
+    It is not a substitute for professional medical advice, diagnosis, or treatment.
+    </div>
+    """,
+    unsafe_allow_html=True
+)
