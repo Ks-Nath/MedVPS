@@ -871,6 +871,16 @@ elif app_mode == "Drug Assistant":
     st.title("💊 Drug Assistant")
     st.subheader("Drug Interaction Checker")
 
+    # ---------------- Help / How to Use ----------------
+    with st.expander("ℹ️ How to Use"):
+        st.markdown("""
+        1. **Search** for a drug using the search bar.  
+        2. **Add** it to your list with ➕.  
+        3. Repeat to add multiple drugs.  
+        4. The app will **automatically check interactions** between all selected drugs.  
+        5. Use 🧹 **Clear All Drugs** to start over.
+        """)
+
     if "selected_drugs" not in st.session_state:
         st.session_state.selected_drugs = []
 
