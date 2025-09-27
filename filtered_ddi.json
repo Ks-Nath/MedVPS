@@ -54,28 +54,28 @@
     },
     "Amoxicillin": {
       "type": "Pharmacodynamic",
-      "severity": "Moderate",
-      "description": "Potential interaction between Aspirin and Amoxicillin."
+      "severity": "monitor closely",
+      "description": "Either increases levels of the other by plasma protein binding competition. Use Caution/Monitor. ALSO. Either increases levels of the other by decreasing renal clearance. Use Caution/Monitor."
     },
     "Ibuprofen": {
       "type": "Pharmacodynamic",
-      "severity": "Moderate",
-      "description": "Potential interaction between Aspirin and Ibuprofen."
+      "severity": "serious - use alternative",
+      "description": "ibuprofen decreases effects of aspirin by Other (see comment). Avoid or Use Alternate Drug. Comment: Ibuprofen decreases the antiplatelet effects of low-dose aspirin by blocking the active site of platelet cyclooxygenase. Administer ibuprofen 8 h before aspirin or at least 2-4 h after aspirin. The effect of other NSAIDs on aspirin is not established."
     },
     "Metformin": {
       "type": "Pharmacodynamic",
-      "severity": "Moderate",
-      "description": "Potential interaction between Aspirin and Metformin."
+      "severity": "no interaction",
+      "description": "NO Potential interaction between Aspirin and Metformin."
     },
     "Lisinopril": {
       "type": "Pharmacodynamic",
-      "severity": "Moderate",
-      "description": "Potential interaction between Aspirin and Lisinopril."
+      "severity": "serious - use alternative",
+      "description": "aspirin, lisinopril. pharmacodynamic antagonism. Avoid or Use Alternate Drug. Coadministration may result in a significant decrease in renal function. NSAIDs may diminish the antihypertensive effect of ACE inhibitors. The mechanism of these interactions is likely related to the ability of NSAIDs to reduce the synthesis of vasodilating renal prostaglandins."
     },
     "Amlodipine": {
       "type": "Pharmacodynamic",
-      "severity": "Moderate",
-      "description": "Potential interaction between Aspirin and Amlodipine."
+      "severity": "no interaction",
+      "description": "NO Potential interaction between Aspirin and Amlodipine."
     },
     "Ciprofloxacin": {
       "type": "Pharmacodynamic",
