@@ -981,12 +981,14 @@ elif app_mode == "Indian Protocols":
 
 st.markdown("---")
 
-# Disclaimer footer
 st.markdown(
     """
-    <div style='text-align: center; color: gray; font-size: 14px;'>
-    ⚠️ <b>Disclaimer:</b> This app is for educational & informational purposes only.  
-    It is not a substitute for professional medical advice, diagnosis, or treatment.
+    <div style='text-align: center; color: #888888; font-size: 12px; line-height: 1.4;'>
+    ⚠️ <b>Disclaimer:</b> This app is intended for educational and informational purposes only.  
+    It is <i>not</i> a substitute for professional medical advice, diagnosis, or treatment.  
+    Always consult a qualified healthcare provider for clinical decisions.
+    <br><br>
+    © 2025 <b>ksnath.com</b>. All rights reserved.
     </div>
     """,
     unsafe_allow_html=True
