@@ -50,10 +50,13 @@
     "Eosinophils": "1 – 6%",
     "Basophils": "< 1%",
     "Platelet Count": "150,000 – 450,000 /µL",
-    "Hematocrit (Hct)": "41 – 53% (men), 36 – 46% (women)",
+    "Hematocrit (Hct)": "40 – 54% (men), 37 – 47% (women)",
     "ESR (Westergren)": "0 – 15 mm/hr (men), 0 – 20 mm/hr (women)",
-    "Reticulocyte Count": "0.5 – 1.5%",
-    "Bicarbonate" : "21 - 29 mmol/L"
+    "Reticulocytes (Adults)": "25 – 85 x 10⁹/L",
+    "Bicarbonate" : "21 - 29 mmol/L",
+    "MCH" : "27 - 32 pg",
+    "MCV" : "78 - 98 fl",
+    "PCV" : "0.40 - 0.54 (Male), 0.37 - 0.47 (Female)"
   },
   "Liver Function Tests": {
     "Total Bilirubin": "0.2 – 1.2 mg/dL",
