@@ -66,7 +66,8 @@ elif app_mode == "Calculator":
     "Hematology": ["INR", "NLR", "PLR"],
     "Gastroenterology": ["Child-Pugh", "MELD", "APRI"],
     "Critical Care": ["SOFA", "APACHE II", "SIRS"],
-    "Obstetrics": ["Gestational Age", "EDC Calculator", "EDC to GA", "Bishop Score", "BMI in Pregnancy"]
+    "Obstetrics": ["Gestational Age", "EDC Calculator", "EDC to GA", "Bishop Score", "BMI in Pregnancy"],
+    "Surgery" : ["ABPI"]
 }
 
     # Sidebar selection
@@ -792,6 +793,92 @@ elif app_mode == "Calculator":
             elif bmi<30: st.warning("Overweight")
             else: st.error("Obese")
 
+# ------- SURGERY --------- #
+    elif selected_calculator == "ABPI":
+        st.title("Ankle-Brachial Pressure Index (ABPI) Calculator")
+
+        st.markdown("""
+        The **ABPI** is calculated by dividing the **highest ankle systolic pressure** 
+        by the **highest brachial systolic pressure**.  
+        It helps in screening for **Peripheral Arterial Disease (PAD)**.
+        """)
+
+        # -----------------------------
+        # Inputs
+        # -----------------------------
+        st.subheader("Enter Systolic Blood Pressures (mmHg)")
+
+        col1, col2 = st.columns(2)
+
+        with col1:
+            brachial_right = st.number_input("Right Brachial Pressure", min_value=0.0, step=1.0)
+            brachial_left = st.number_input("Left Brachial Pressure", min_value=0.0, step=1.0)
+
+        with col2:
+            ankle_right = st.number_input("Right Ankle Pressure", min_value=0.0, step=1.0)
+            ankle_left = st.number_input("Left Ankle Pressure", min_value=0.0, step=1.0)
+
+        # -----------------------------
+        # Calculation
+        # -----------------------------
+        if st.button("Calculate ABPI"):
+            highest_brachial = max(brachial_right, brachial_left)
+
+            if highest_brachial == 0:
+                st.error("⚠️ Brachial pressure cannot be 0.")
+            else:
+                abpi_right = ankle_right / highest_brachial if ankle_right > 0 else None
+                abpi_left = ankle_left / highest_brachial if ankle_left > 0 else None
+
+                st.subheader("📊 Results")
+
+                # Bailey & Love Interpretation
+                def interpret_abpi(value):
+                    if value is None:
+                        return "Not calculated", "#d3d3d3"
+                    elif value > 1.3:
+                        return "Arterial calcification / non-compressible vessels", "#ff8000"
+                    elif 0.91 <= value <= 1.3:
+                        return "Normal", "#4CAF50"
+                    elif 0.80 <= value < 0.91:
+                        return "Mild PAD", "#FFD700"
+                    elif 0.50 <= value < 0.80:
+                        return "Moderate PAD", "#FF4500"
+                    else:  # < 0.50
+                        return "Severe PAD", "#FF0000"
+
+                # Helper to render card
+                def result_card(side, value):
+                    interpretation, color = interpret_abpi(value)
+                    if value is not None:
+                        st.markdown(
+                            f"""
+                            <div style="padding:15px; border-radius:10px; margin-bottom:15px;
+                                        background-color:{color}; color:white; font-size:18px;">
+                                <b>{side} ABPI:</b> {value:.2f} <br>
+                                <b>Interpretation:</b> {interpretation}
+                            </div>
+                            """,
+                            unsafe_allow_html=True
+                        )
+
+                result_card("Right Leg", abpi_right)
+                result_card("Left Leg", abpi_left)
+
+        # -----------------------------
+        # Reference Table (Bailey & Love)
+        # -----------------------------
+        st.subheader("📖 ABPI Reference Table ")
+
+        st.markdown("""
+        | **ABPI Value**     | **Interpretation**                                |
+        |---------------------|--------------------------------------------------|
+        | > 1.3              | Arterial calcification / non-compressible vessels |
+        | 0.91 – 1.30        | Normal                                           |
+        | 0.80 – 0.90        | Mild PAD                                         |
+        | 0.50 – 0.79        | Moderate PAD                                     |
+        | < 0.50             | Severe PAD                                       |
+        """)
 
     # ---------- Add more calculators as needed following same pattern ----------
     else:

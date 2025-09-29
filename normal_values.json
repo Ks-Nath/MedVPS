@@ -52,7 +52,8 @@
     "Platelet Count": "150,000 – 450,000 /µL",
     "Hematocrit (Hct)": "41 – 53% (men), 36 – 46% (women)",
     "ESR (Westergren)": "0 – 15 mm/hr (men), 0 – 20 mm/hr (women)",
-    "Reticulocyte Count": "0.5 – 1.5%"
+    "Reticulocyte Count": "0.5 – 1.5%",
+    "Bicarbonate" : "21 - 29 mmol/L"
   },
   "Liver Function Tests": {
     "Total Bilirubin": "0.2 – 1.2 mg/dL",
@@ -97,7 +98,7 @@
     "Insulin (Fasting)": "2 – 25 µIU/mL",
     "Growth Hormone": "< 5 ng/mL",
     "FSH": "1.5 – 12.4 IU/L (men), 3.5 – 12.5 IU/L (women, follicular phase)",
-    "LH": "1.5 – 9.3 IU/L (men), 2.4 – 12.6 IU/L (women, follicular phase)",
+    "LH": "1.0 – 9.0 IU/L (men), 2.0 – 9.0 IU/L (women, early follicular phase), >20 IU/L(post-menopausal)",
     "Testosterone": "270 – 1070 ng/dL (men), 15 – 70 ng/dL (women)",
     "Estradiol (E2)": "20 – 350 pg/mL (women, varies by phase)",
     "Progesterone": "< 1 ng/mL (follicular), 5 – 20 ng/mL (luteal)"
@@ -106,9 +107,9 @@
     "pH": "7.35 – 7.45",
     "PaO₂": "80 – 100 mmHg",
     "PaCO₂": "35 – 45 mmHg",
-    "HCO₃⁻": "22 – 28 mmol/L",
+    "HCO₃⁻": "21 – 29 mmol/L",
     "Base Excess": "-2 to +2 mmol/L",
-    "O₂ Saturation": "95 – 100%"
+    "O₂ Saturation": ">97%"
   },
   "Urine": {
     "Urine pH": "4.6 – 8.0",
