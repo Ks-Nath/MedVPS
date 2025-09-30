@@ -8,17 +8,17 @@ import streamlit.components.v1 as components
 # ------------------ APP CONFIG ------------------
 st.set_page_config(page_title="Crux Med", layout="wide")
 
-ga_script = f"""<!-- Google tag (gtag.js) -->
+# GA4 snippet (replace G-XXXXXXX with your GA4 Measurement ID)
+components.html("""
+<!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-SXSGTJBZDJ"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
-  function gtag(){{dataLayer.push(arguments);}}
+  function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-
-  gtag('config', 'G-SXSGTJBZDJ');
-</script>"""
-
-components.html(ga_script, height=0, width=0)
+  gtag('config', 'G-SXSGTJBZDJ');  // Your GA4 Measurement ID
+</script>
+""", height=0, width=0)
 
 # ------------------- Hide Hamburger Menu -------------------
 hide_hamburger_css = """
