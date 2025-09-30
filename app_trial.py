@@ -3,22 +3,9 @@ import json
 from itertools import combinations
 import math
 from datetime import date, timedelta
-import streamlit.components.v1 as components
 
 # ------------------ APP CONFIG ------------------
 st.set_page_config(page_title="Crux Med", layout="wide")
-
-# GA4 snippet (replace G-XXXXXXX with your GA4 Measurement ID)
-components.html("""
-<!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-SXSGTJBZDJ"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-SXSGTJBZDJ');  // Your GA4 Measurement ID
-</script>
-""", height=0, width=0)
 
 # ------------------- Hide Hamburger Menu -------------------
 hide_hamburger_css = """
