@@ -3,22 +3,45 @@ import json
 from itertools import combinations
 import math
 from datetime import date, timedelta
-import streamlit.components.v1 as components
-
+import os
+import uuid
+import datetime
 # ------------------ APP CONFIG ------------------
 st.set_page_config(page_title="Crux Med", layout="wide")
 
-ga_script = f"""
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-PDT4T30HWL"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){{dataLayer.push(arguments);}}
-  gtag('js', new Date());
-  gtag('config', 'G-PDT4T30HWL');
-</script>"""
- 
-components.html(ga_script, height=0, width=0)
+# File to store analytics
+ANALYTICS_FILE = "analytics.json"
+
+# Create file if it doesn't exist
+if not os.path.exists(ANALYTICS_FILE):
+    with open(ANALYTICS_FILE, "w") as f:
+        json.dump([], f)
+
+# Assign a unique ID to each visitor (per session)
+if "user_id" not in st.session_state:
+    st.session_state.user_id = str(uuid.uuid4())
+
+# Function to log an event
+def log_event(event_type, details=None):
+    with open(ANALYTICS_FILE, "r") as f:
+        data = json.load(f)
+    
+    event = {
+        "timestamp": str(datetime.datetime.now()),
+        "event_type": event_type,
+        "details": details,
+        "user_id": st.session_state.user_id
+    }
+    
+    data.append(event)
+    
+    with open(ANALYTICS_FILE, "w") as f:
+        json.dump(data, f, indent=2)
+
+# -----------------------------
+# Log a page visit automatically
+# -----------------------------
+log_event("page_visit", {"page": "Home"})
 
 # ------------------- Hide Hamburger Menu -------------------
 hide_hamburger_css = """
