@@ -3,7 +3,20 @@ import json
 from itertools import combinations
 import math
 from datetime import date, timedelta
+import streamlit.components.v1 as components
+
+ga_script = f"""
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-PDT4T30HWL"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){{dataLayer.push(arguments);}}
+  gtag('js', new Date());
+  gtag('config', 'G-PDT4T30HWL');
+</script>"""
  
+components.html(ga_script, height=0, width=0)
+
 # ------------------ APP CONFIG ------------------
 st.set_page_config(page_title="Crux Med", layout="wide")
 
