@@ -34,7 +34,8 @@ if app_mode == "Home":
     st.title("🏥 Welcome to the complete Medical Suite")
     st.markdown("""
     This app is designed for doctors, medical students, and healthcare professionals.  
-    Use the sidebar to navigate to:
+                
+    <span style="color:red; font-weight:bold;">USE THE SIDEBAR ( > icon at top left) TO NAVIGATE TO:</span>
     - **Calculator:** Access medical calculators by specialty.
     - **Drug Assistant:** Search drug interactions.
     - **Normal Values:** Essential normal values sorted by system.
@@ -44,7 +45,7 @@ if app_mode == "Home":
     🔬 *All tools are built for educational and professional support only.*
         
         Designed by K.S.Srinath.
-    """
+    """, unsafe_allow_html=True
     )
     st.markdown("""
     Want to know more about me? <a href="https://ksnath.com" target="_blank" rel="noopener noreferrer">Visit ksnath.com</a>
