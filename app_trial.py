@@ -3,9 +3,58 @@ import json
 from itertools import combinations
 import math
 from datetime import date, timedelta
+import sqlite3
+import uuid
 
 # ------------------ APP CONFIG ------------------
 st.set_page_config(page_title="Crux Med", layout="wide")
+
+# -----------------------------
+# Database setup
+# -----------------------------
+DB_FILE = "data/analytics.sqlite"  # ensure 'data/' folder exists
+conn = sqlite3.connect(DB_FILE, check_same_thread=False)
+c = conn.cursor()
+
+# Table to store unique page views
+c.execute("""
+CREATE TABLE IF NOT EXISTS page_views (
+    page TEXT,
+    session_id TEXT,
+    PRIMARY KEY (page, session_id)
+)
+""")
+conn.commit()
+
+# -----------------------------
+# Session ID
+# -----------------------------
+if "session_id" not in st.session_state:
+    st.session_state.session_id = str(uuid.uuid4())
+
+# -----------------------------
+# Logging functions
+# -----------------------------
+def log_page_view(page_name):
+    """
+    Logs a unique page view per session. Multiple reloads in the same session
+    do NOT increment the count.
+    """
+    try:
+        c.execute("INSERT INTO page_views (page, session_id) VALUES (?, ?)",
+                  (page_name, st.session_state.session_id))
+        conn.commit()
+    except sqlite3.IntegrityError:
+        # Already logged this session → do nothing
+        pass
+
+def get_page_views():
+    """
+    Returns total unique views per page
+    """
+    c.execute("SELECT page, COUNT(session_id) FROM page_views GROUP BY page")
+    return c.fetchall()
+
 
 # ------------------- Hide Hamburger Menu -------------------
 hide_hamburger_css = """
@@ -28,6 +77,9 @@ with open("filtered_ddi.json", "r") as f:
 # ------------------ SIDEBAR NAVIGATION ------------------
 st.sidebar.title("Navigation")
 app_mode = st.sidebar.radio("Go to", ["Home", "Calculator", "Drug Assistant", "Normal Values", "Indian Protocols"])
+
+# --- Call the logging function here ---
+log_page_view(app_mode.replace(" ", "_").lower())
 
 # ------------------ HOME PAGE ------------------
 if app_mode == "Home":
