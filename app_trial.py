@@ -29,8 +29,7 @@ with open("filtered_ddi.json", "r") as f:
 st.sidebar.title("Navigation")
 app_mode = st.sidebar.radio("Go to", ["Home", "Calculator", "Drug Assistant", "Normal Values", "Indian Protocols"])
 
-# --- Call the logging function here ---
-log_page_view(app_mode.replace(" ", "_").lower())
+
 
 # ------------------ HOME PAGE ------------------
 if app_mode == "Home":
