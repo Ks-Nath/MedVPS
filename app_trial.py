@@ -66,7 +66,7 @@ elif app_mode == "Calculator":
     "Nephrology": ["eGFR", "Creatinine Clearance", "Urine Output", "FeNa"],
     "Endocrinology": ["HbA1c to Avg Glucose", "HOMA-IR", "Total Daily Insulin Requirement", "Corrected Calcium", "Corrected Sodium", "Calcium-Phosphate Product", "FRAX", "Serum Osmolality", "Water Deficit", "Anion Gap"],
     "Mental Health": ["GAD-7", "PHQ-9", "MMSE"],
-    "Hematology": ["INR", "NLR", "PLR"],
+    "Hematology": ["INR", "NLR", "PLR", "APTT Ratio", "PT Ratio"],
     "Gastroenterology": ["Child-Pugh", "MELD", "APRI"],
     "Critical Care": ["SOFA", "APACHE II", "SIRS"],
     "Obstetrics": ["Gestational Age", "EDC Calculator", "EDC to GA", "Bishop Score", "BMI in Pregnancy"],
@@ -260,6 +260,149 @@ elif app_mode == "Calculator":
         if max_hr>0 and resting_hr>0:
             target_hr = 0.7*(max_hr-resting_hr)+resting_hr
             st.success(f"Target HR (70% intensity): {target_hr:.0f} bpm")
+    
+    elif selected_calculator == "Framingham Risk":
+        st.subheader("Framingham 10-year Cardiovascular Risk Score (Simplified)")
+
+        age = st.text_input("Age (years)", "")
+        total_chol = st.text_input("Total Cholesterol (mg/dL)", "")
+        hdl = st.text_input("HDL Cholesterol (mg/dL)", "")
+        sbp = st.text_input("Systolic BP (mmHg)", "")
+        smoker = st.selectbox("Smoker?", ["No", "Yes"])
+        diabetic = st.selectbox("Diabetic?", ["No", "Yes"])
+
+        if age and total_chol and hdl and sbp:
+            try:
+                age = float(age)
+                total_chol = float(total_chol)
+                hdl = float(hdl)
+                sbp = float(sbp)
+
+                # Simplified risk factor points
+                risk = 0
+                if age >= 50: risk += 2
+                if total_chol > 200: risk += 2
+                if hdl < 40: risk += 2
+                if sbp > 140: risk += 2
+                if smoker == "Yes": risk += 2
+                if diabetic == "Yes": risk += 2
+
+                # Risk % estimation (very simplified, for demo)
+                risk_percent = min(30, risk * 2.5)
+
+                st.latex(r"\text{Risk} = \text{Sum of Risk Factors} \times 2.5\%")
+                st.success(f"Estimated 10-year CHD Risk: {risk_percent:.1f}%")
+
+                if risk_percent < 10:
+                    st.info("Low Risk (<10%)")
+                elif risk_percent < 20:
+                    st.warning("Moderate Risk (10–20%)")
+                else:
+                    st.error("High Risk (>20%)")
+
+            except ValueError:
+                st.error("Please enter valid numeric values!")
+
+    elif selected_calculator == "TIMI Risk":
+        st.subheader("TIMI Risk Score for Unstable Angina / NSTEMI")
+
+        age65 = st.checkbox("Age ≥ 65 years")
+        risk_factors = st.number_input("≥3 Risk Factors for CAD", 0, 5, 0)
+        known_cad = st.checkbox("Known CAD (stenosis ≥50%)")
+        aspirin = st.checkbox("Aspirin use in past 7 days")
+        recent_angina = st.checkbox("≥2 Angina episodes in last 24h")
+        st_deviation = st.checkbox("ST deviation ≥0.5 mm")
+        elevated_markers = st.checkbox("Elevated cardiac markers")
+
+        score = 0
+        if age65: score += 1
+        if risk_factors >= 3: score += 1
+        if known_cad: score += 1
+        if aspirin: score += 1
+        if recent_angina: score += 1
+        if st_deviation: score += 1
+        if elevated_markers: score += 1
+
+        st.latex(r"\text{TIMI Score} = \text{Sum of Positive Predictors}")
+        st.success(f"TIMI Score: {score}/7")
+
+        if score <= 2:
+            st.info("Low Risk (≤8% event rate)")
+        elif score <= 4:
+            st.warning("Intermediate Risk (~19%)")
+        else:
+            st.error("High Risk (~41%)")
+    
+    elif selected_calculator == "GRACE Score":
+        st.subheader("Simplified GRACE Risk Score (ACS)")
+
+        age = st.text_input("Age (years)", "")
+        heart_rate = st.text_input("Heart Rate (bpm)", "")
+        sbp = st.text_input("Systolic BP (mmHg)", "")
+        creat = st.text_input("Serum Creatinine (mg/dL)", "")
+
+        if age and heart_rate and sbp and creat:
+            try:
+                age = float(age)
+                heart_rate = float(heart_rate)
+                sbp = float(sbp)
+                creat = float(creat)
+
+                # simplified linear approximation
+                grace = (0.04 * age) + (0.03 * heart_rate) - (0.05 * sbp) + (1.2 * creat)
+                grace_score = round(grace * 10, 1)
+
+                st.latex(r"\text{GRACE} = 0.04A + 0.03HR - 0.05SBP + 1.2Cr")
+                st.success(f"GRACE (simplified): {grace_score:.1f}")
+
+                if grace_score < 100:
+                    st.info("Low risk")
+                elif grace_score < 150:
+                    st.warning("Moderate risk")
+                else:
+                    st.error("High risk")
+
+            except ValueError:
+                st.error("Please enter valid numeric values!")
+
+    elif selected_calculator == "eGFR":
+        st.subheader("Estimated Glomerular Filtration Rate (eGFR) — CKD-EPI")
+
+        creat = st.text_input("Serum Creatinine (mg/dL)", "")
+        age = st.text_input("Age (years)", "")
+        sex = st.selectbox("Sex", ["Male", "Female"])
+
+        if creat and age:
+            try:
+                creat = float(creat)
+                age = float(age)
+
+                if sex == "Female":
+                    k, a = 0.7, -0.329
+                    sex_factor = 1.018
+                else:
+                    k, a = 0.9, -0.411
+                    sex_factor = 1.0
+
+                egfr = 141 * min(creat / k, 1) ** a * max(creat / k, 1) ** -1.209 * (0.993 ** age) * sex_factor
+                st.latex(r"\text{eGFR} = 141 \times \min\left(\frac{Scr}{k},1\right)^a \times \max\left(\frac{Scr}{k},1\right)^{-1.209} \times 0.993^{Age} \times S")
+                st.success(f"eGFR: {egfr:.1f} mL/min/1.73m²")
+
+                if egfr >= 90:
+                    st.info("Normal or high (G1)")
+                elif egfr >= 60:
+                    st.success("Mildly decreased (G2)")
+                elif egfr >= 45:
+                    st.warning("Mild–moderate decrease (G3a)")
+                elif egfr >= 30:
+                    st.warning("Moderate–severe decrease (G3b)")
+                elif egfr >= 15:
+                    st.error("Severe decrease (G4)")
+                else:
+                    st.error("Kidney failure (G5)")
+
+            except ValueError:
+                st.error("Please enter valid numeric values!")
 
     # ---------- Mental Health ----------
     elif selected_calculator == "GAD-7":
@@ -293,6 +436,41 @@ elif app_mode == "Calculator":
         scores = [options.index(st.selectbox(q, options, key="phq"+q)) for q in questions]
         total = sum(scores)
         st.success(f"PHQ-9 Score: {total}")
+
+    elif selected_calculator == "MMSE":
+        st.subheader("Mini-Mental State Examination (MMSE)")
+
+        st.markdown("""
+        **Purpose:** Screening tool to assess cognitive function.  
+        **Maximum score:** 30 points.  
+        """)
+        
+        st.info("Enter the patient's score for each domain below:")
+
+        orientation = st.number_input("Orientation (0–10)", min_value=0, max_value=10, step=1)
+        registration = st.number_input("Registration (0–3)", min_value=0, max_value=3, step=1)
+        attention = st.number_input("Attention & Calculation (0–5)", min_value=0, max_value=5, step=1)
+        recall = st.number_input("Recall (0–3)", min_value=0, max_value=3, step=1)
+        language = st.number_input("Language (0–9)", min_value=0, max_value=9, step=1)
+
+        if st.button("Calculate MMSE"):
+            total = orientation + registration + attention + recall + language
+            
+            st.latex(r"\text{MMSE Total} = \text{Orientation} + \text{Registration} + \text{Attention} + \text{Recall} + \text{Language}")
+            st.success(f"Total MMSE Score: {total}/30")
+
+            if total >= 25:
+                st.info("Normal cognition (25–30)")
+            elif total >= 21:
+                st.warning("Mild cognitive impairment (21–24)")
+            elif total >= 10:
+                st.error("Moderate cognitive impairment (10–20)")
+            else:
+                st.error("Severe cognitive impairment (<10)")
+
+            st.caption("Interpretation may vary slightly depending on age and education level.")
+
+
     # ---------- PULMONOLOGY ----------
     elif selected_calculator == "Wells Score PE":
         criteria = {
@@ -328,6 +506,34 @@ elif app_mode == "Calculator":
             if ratio < 100: st.error("Severe ARDS")
             elif ratio < 200: st.warning("Moderate ARDS")
             else: st.info("Mild / Normal")
+
+    elif selected_calculator == "Predicted PFT":
+        st.subheader("Predicted Pulmonary Function Test Values (FEV₁, FVC)")
+
+        age = st.text_input("Age (years)", "")
+        height = st.text_input("Height (cm)", "")
+        sex = st.selectbox("Sex", ["Male", "Female"])
+
+        if age and height:
+            try:
+                age = float(age)
+                height = float(height)
+
+                if sex == "Male":
+                    fev1 = (0.0414 * height) - (0.0244 * age) - 2.19
+                    fvc = (0.0523 * height) - (0.0281 * age) - 3.59
+                else:
+                    fev1 = (0.0342 * height) - (0.0255 * age) - 1.578
+                    fvc = (0.041 * height) - (0.0244 * age) - 2.190
+
+                ratio = (fev1 / fvc) * 100
+                st.latex(r"\text{FEV₁/FVC Ratio} = \frac{\text{FEV₁}}{\text{FVC}} \times 100")
+                st.success(f"Predicted FEV₁: {fev1:.2f} L")
+                st.success(f"Predicted FVC: {fvc:.2f} L")
+                st.info(f"Predicted FEV₁/FVC Ratio: {ratio:.1f}%")
+
+            except ValueError:
+                st.error("Please enter valid numeric values!")
 
     # ---------- NEPHROLOGY ----------
     elif selected_calculator == "FeNa":
@@ -504,6 +710,107 @@ elif app_mode == "Calculator":
         if platelets>0 and lymphocytes>0:
             plr = platelets/lymphocytes
             st.success(f"PLR: {plr:.2f}")
+
+    elif selected_calculator == "INR":
+            st.subheader("International Normalized Ratio (INR)")
+
+            st.markdown("""
+            **Purpose:** Standardizes Prothrombin Time (PT) to monitor warfarin therapy or liver function.
+            """)
+
+            # Proper LaTeX display
+            st.latex(r"\text{INR} = \left( \frac{\text{Patient PT}}{\text{Control PT}} \right)^{\text{ISI}}")
+
+            patient_pt = st.text_input("Patient PT (seconds)", "")
+            control_pt = st.text_input("Control PT (seconds)", "")
+            isi = st.text_input("ISI (International Sensitivity Index)", "1.0")
+
+            if patient_pt and control_pt and isi:
+                try:
+                    patient_pt = float(patient_pt)
+                    control_pt = float(control_pt)
+                    isi = float(isi)
+
+                    if control_pt <= 0:
+                        st.error("Control PT must be greater than 0!")
+                    else:
+                        inr = (patient_pt / control_pt) ** isi
+                        st.success(f"Calculated INR: {inr:.2f}")
+
+                        # Interpretation
+                        if inr < 0.8:
+                            st.warning("Below normal range — may indicate increased clotting tendency.")
+                        elif 0.8 <= inr <= 1.2:
+                            st.info("Normal range (not on anticoagulation).")
+                        elif 2.0 <= inr <= 3.0:
+                            st.success("Therapeutic range for most indications (on warfarin).")
+                        elif 2.5 <= inr <= 3.5:
+                            st.success("Therapeutic range for mechanical valves or high-risk conditions.")
+                        elif inr > 4.0:
+                            st.error("High bleeding risk — consider dose adjustment or evaluation.")
+                        else:
+                            st.warning("Sub-therapeutic INR for anticoagulation.")
+
+                except ValueError:
+                    st.error("Please enter valid numeric values!")
+
+
+    elif selected_calculator == "APTT Ratio":
+        st.subheader("APTT (Activated Partial Thromboplastin Time) Calculator")
+
+        st.latex(r"""
+        \text{APTT Ratio} = 
+        \frac{\text{Patient APTT}}{\text{Control APTT}}
+        """)
+
+        patient_aptt = st.number_input("Patient APTT (seconds)", min_value=0.0, step=0.1)
+        control_aptt = st.number_input("Control APTT (seconds)", min_value=0.0, step=0.1)
+
+        if control_aptt > 0:
+            aptt_ratio = patient_aptt / control_aptt
+            st.markdown(f"### 🧪 APTT Ratio = {aptt_ratio:.2f}")
+        else:
+            st.warning("Enter a valid Control APTT.")
+
+        st.info("""
+        **Interpretation:**
+        - **Normal APTT Ratio:** 0.8 – 1.2  
+        - **Prolonged (>1.5):** May indicate  
+        - Heparin therapy  
+        - Coagulation factor deficiency  
+        - Liver disease  
+        - DIC (Disseminated Intravascular Coagulation)
+        """)
+
+
+    elif selected_calculator == "PT Ratio":
+        st.subheader("PT (Prothrombin Time) Calculator")
+
+        st.latex(r"""
+        \text{INR} = 
+        \left( 
+            \frac{\text{Patient PT}}{\text{Control PT}} 
+        \right)^{\text{ISI}}
+        """)
+
+        patient_pt = st.number_input("Patient PT (seconds)", min_value=0.0, step=0.1)
+        control_pt = st.number_input("Control PT (seconds)", min_value=0.0, step=0.1)
+        isi = st.number_input("ISI (International Sensitivity Index)", min_value=0.0, step=0.1)
+
+        if control_pt > 0:
+            inr = (patient_pt / control_pt) ** isi
+            st.markdown(f"### 🧬 INR = {inr:.2f}")
+        else:
+            st.warning("Enter a valid Control PT.")
+
+        st.info("""
+        **Interpretation:**
+        - **Normal INR:** 0.8 – 1.2  
+        - **Therapeutic (Warfarin):** 2.0 – 3.0  
+        - **High INR →** Increased bleeding risk  
+        - **Low INR →** Thrombosis risk  
+        """)
+
 
     # ---------- GASTROENTEROLOGY ----------
     elif selected_calculator == "Child-Pugh":
@@ -1066,8 +1373,506 @@ elif app_mode == "Normal Values":
 
 # ------------------ INDIAN PROTOCOLS ------------------
 elif app_mode == "Indian Protocols":
-    st.title("📋 Indian Protocols")
-    st.info("Coming soon: Indian medical treatment protocols and clinical pathways.")
+    st.title("📋 Indian Protocols - Emergency Management")
+
+    # Dropdown of protocols
+    protocols = [
+        "Snakebite",
+        "OP Poisoning",
+        "Rabies",
+        "Anaphylaxis",
+        "Seizure",
+        "DKA",
+        "Acute MI",
+        "Status Asthmaticus"
+    ]
+
+    selected_protocol = st.selectbox("Select Protocol", protocols)
+
+    if selected_protocol == "OP Poisoning":
+        st.subheader("Organophosphorus (OP) Poisoning Management Protocol (AIIMS)")
+
+        st.markdown("""
+        ### 1️⃣ Initial Assessment
+        - Ensure **patient and rescuer safety**.
+        - Assess **airway, breathing, circulation (ABCs)**.
+        - Remove **contaminated clothing**.
+        - Wash skin thoroughly with **soap and running water**.
+        - **Do not induce vomiting** unless instructed in hospital.
+
+        ### 2️⃣ Clinical Features
+        OP poisoning leads to **cholinergic excess**. Look for:
+
+        | Feature Type | Examples |
+        |--------------|---------|
+        | **Muscarinic** | Salivation, lacrimation, urination, diarrhea, GI cramps, miosis, bronchospasm |
+        | **Nicotinic** | Muscle fasciculations, weakness, paralysis, hypertension, tachycardia |
+        | **CNS** | Anxiety, confusion, seizures, coma |
+
+        ### 3️⃣ Investigations
+        - **Bedside:** 20-min Whole Blood Clotting Test (20WBCT) if snakebite suspected too.
+        - **Lab:** CBC, RFT, LFT, Serum Cholinesterase (if available)
+        - ABG, electrolytes, ECG (for cardiac monitoring)
+
+        ### 4️⃣ Decontamination & Supportive Care
+        - **Remove contaminated clothing** and wash exposed skin.
+        - **Airway management**: Oxygen, suction if excessive secretions.
+        - **IV fluids** to maintain perfusion.
+        - Monitor vitals, urine output, and oxygen saturation.
+        - Treat **seizures** with benzodiazepines (e.g., lorazepam, diazepam).
+
+        ### 5️⃣ Antidotes
+        **Atropine (Muscarinic Antagonist)**
+        - Initial dose: 1–2 mg IV in adults (0.05 mg/kg in children)
+        - Double dose every 5–10 min until signs of **atropinization**:
+            - Drying of secretions
+            - Pupils mid-dilated
+            - Heart rate normalized
+        - **Maintenance infusion**: 10–20% of total loading dose per hour
+
+        **Pralidoxime (2-PAM, Oxime)**
+        - Reverses nicotinic effects
+        - Dose: 30 mg/kg IV over 15–30 min, may repeat q6–12h
+        - Start **early** (within 24h of ingestion) for maximal benefit
+
+        ### 6️⃣ Monitoring
+        - Continuous cardiac monitoring
+        - Reassess for atropinization signs and dose adjustments
+        - Watch for **intermediate syndrome** (2–4 days post-ingestion):
+            - Limb and neck weakness
+            - Respiratory muscle involvement
+            - Requires ventilatory support if needed
+
+        ### 7️⃣ Discharge & Follow-up
+        - Discharge when **stable, symptom-free, and cholinesterase improving**
+        - Educate patient and caregivers on **safe storage of pesticides**
+        - Consider **psychiatric evaluation** if intentional poisoning
+
+        **References:**
+        - AIIMS Clinical Toxicology Protocols, 2023  
+        - Indian Journal of Critical Care Medicine: OP Poisoning Guidelines  
+        """)
+
+    elif selected_protocol == "Snakebite":
+        st.subheader("Snakebite Management Protocol (AIIMS)")
+
+        with st.expander("1️⃣ Initial Assessment"):
+            st.markdown("""
+            - Ensure **rescuer and patient safety** (identify snake if possible).
+            - **Do not cut, suck, or apply tight tourniquets**.
+            - Immobilize the bitten limb **below heart level**.
+            - Assess **airway, breathing, circulation (ABCs)**.
+            - Transport patient **promptly** to the nearest hospital.""")
+
+        with st.expander("2️⃣ Clinical Grading of Envenomation"):
+            st.markdown("""
+            | Grade | Clinical Features |
+            |-------|-----------------|
+            | I     | Local pain, swelling |
+            | II    | Regional lymphadenopathy, mild systemic signs |
+            | III   | Systemic manifestations: neurotoxicity, bleeding, shock |""")
+
+        with st.expander("3️⃣ Investigations"):
+            st.markdown("""
+            - **Bedside:** 20-minute Whole Blood Clotting Test (20WBCT)  
+            - **Lab:** CBC, PT/INR, APTT, RFT, LFT, electrolytes, ECG
+            - Monitor **urine output** for early detection of renal involvement""")
+
+        with st.expander("4️⃣ Antivenom Administration (ASV)"):
+            st.markdown("""
+            - **Polyvalent Anti-Snake Venom (ASV)**:
+                - Initial dose: 10 vials IV over 1 hour (diluted in 200 mL NS)
+                - Repeat **every 1 hour** until systemic signs improve
+                - **Maximum total dose:** 30 vials
+            - **Pre-medication:** Hydrocortisone/Antihistamine is optional, not routinely required
+            - **Neurotoxic bites:** Monitor respiration, may require mechanical ventilation""")
+
+        with st.expander("5️⃣ Supportive Care"):
+            st.markdown("""
+            - Oxygen supplementation if hypoxic
+            - IV fluids to maintain hemodynamic stability
+            - Analgesics for pain (avoid NSAIDs in coagulopathy)
+            - Manage shock with crystalloids; vasopressors if needed
+            - **Neostigmine + Atropine** for neurotoxic paralysis (as per protocol)
+            - Monitor for **coagulopathy and bleeding**""")
+
+        with st.expander("6️⃣ Observation & Follow-up"):
+            st.markdown("""
+            - Observe patient for **24 hours** after last ASV dose
+            - Document:
+                - Bite site
+                - Snake species if identified
+                - Dose of ASV administered
+            - Discharge only when **clinically stable and coagulation normal**""")
+
+        with st.expander("7️⃣ Patient Education"):
+            st.markdown("""
+            - Avoid traditional remedies (cutting, sucking, tying)
+            - Educate on prevention: footwear, snake awareness
+            - Follow-up for delayed neurological symptoms or wound care""")
+
+        st.markdown("""
+        **References:**
+        - AIIMS Snakebite Management Protocol, 2023  
+        - Ministry of Health & Family Welfare, India: Guidelines for Snakebite Management  
+        """)
+
+    elif selected_protocol == "Rabies":
+        st.subheader("Rabies Post-Exposure Prophylaxis (PEP) Protocol (India)")
+
+        st.markdown("""
+        ### 1️⃣ Immediate First Aid (Wound Management)
+        - **Wash the wound immediately** with **soap and running water for ≥15 minutes**.
+        - **Apply antiseptic**: 70% ethanol, povidone-iodine, or other recommended disinfectant.
+        - **Do NOT suture** the wound unless necessary; if suturing is done, avoid injecting vaccine at that site.
+        - Remove any contaminated clothing near the bite.
+
+        ### 2️⃣ Exposure Assessment
+        - Classify exposure using **WHO categories**:
+
+        | Category | Description | Risk / PEP Requirement |
+        |----------|------------|----------------------|
+        | I        | Touching/feeding animals, licks on intact skin | None – PEP not required |
+        | II       | Nibbling of uncovered skin, minor scratches/abrasions **without bleeding** | Moderate – PEP indicated |
+        | III      | Transdermal bites, scratches, licks on broken skin, mucous membrane contamination | High – PEP indicated **with RIG** |
+
+        - Identify the **animal species** if possible.
+
+        ### 3️⃣ Vaccination Schedule
+        **Essen 5-dose regimen (IM):** Day 0, 3, 7, 14, 28  
+        **Intradermal 2-site regimen (Thai Red Cross):** Day 0, 3, 7, 28  
+        - Use **Cell Culture Vaccine (CCV) or Purified Vero Cell Vaccine (PVRV)**  
+        - **Nerve Tissue Vaccines** are not recommended
+
+        ### 4️⃣ Rabies Immunoglobulin (RIG)
+        - Indicated for **Category III exposures**  
+        - **Human RIG (HRIG) / Equine RIG (ERIG)**: infiltrate **around the wound**  
+        - Dose: HRIG 20 IU/kg, ERIG 40 IU/kg  
+        - Remaining RIG (if any) can be given **IM at site distant from vaccine**
+
+        ### 5️⃣ Monitoring & Follow-up
+        - Complete all **vaccine doses**
+        - Monitor wound for infection
+        - Advise patient to report any **neurological symptoms**
+
+        ### 6️⃣ Special Considerations
+        - Pregnant or immunocompromised patients: **same PEP schedule**  
+        - Previously vaccinated: 2 booster doses only (Day 0 and Day 3)  
+        - RIG not required for previously fully vaccinated individuals
+
+        **References:**
+        - NCDC Rabies Guidelines, India, 2023  
+        - AIIMS Clinical Protocols for Rabies PEP  
+        - WHO: Rabies Post-Exposure Prophylaxis, 2022
+        """)
+
+    elif selected_protocol == "Anaphylaxis":
+        st.subheader("Anaphylaxis Management Protocol (India)")
+
+        st.markdown("""
+        ### 1️⃣ Immediate First Aid
+        - **Call for help / emergency services immediately**.
+        - **Assess ABCs**:
+            - **Airway:** Check for obstruction (laryngeal edema, tongue swelling)
+            - **Breathing:** Look for wheezing, stridor, cyanosis
+            - **Circulation:** Monitor pulse, blood pressure
+        - **Position patient**:
+            - Supine with legs elevated (if hypotensive)
+            - Upright if severe respiratory distress
+        - Remove **trigger** if known (insect sting, drug, food).
+
+        ### 2️⃣ First-Line Drug: Epinephrine
+        - **Dose:** 0.01 mg/kg IM (max 0.5 mg)  
+        - Adults: 0.5 mg IM  
+        - Children: 0.01 mg/kg IM  
+        - **Site:** Mid-outer thigh  
+        - Repeat every 5–15 min if symptoms persist
+
+        ### 3️⃣ Supportive Care
+        - **Oxygen:** High-flow via mask if hypoxic
+        - **IV fluids:** 20 mL/kg crystalloid bolus for hypotension
+        - **Airway support:** Prepare for intubation if airway compromise
+        - **Monitor vitals:** BP, HR, SpO₂, urine output
+
+        ### 4️⃣ Adjunct Medications
+        - **Antihistamines:** 
+            - Diphenhydramine 25–50 mg IV/IM (adults)
+            - Children: 1 mg/kg IV/IM
+        - **Corticosteroids:** 
+            - Hydrocortisone 4–8 mg/kg IV (max 300 mg)
+            - Prevents biphasic reaction (not for immediate symptom relief)
+        - **Bronchodilators:** Salbutamol nebulization if wheezing persists
+
+        ### 5️⃣ Observation & Follow-up
+        - **Monitor patient for at least 4–6 hours** after symptom resolution
+        - **Admit if:**
+            - Severe anaphylaxis
+            - Comorbidities (asthma, cardiovascular disease)
+            - Delayed or biphasic reaction risk
+        - **Educate patient:**
+            - Avoid triggers
+            - Prescribe **epinephrine auto-injector** if available
+            - Follow-up with allergist
+
+        ### 6️⃣ Special Considerations
+        - Pregnancy: Epinephrine **first-line**, same dose
+        - Children: Dose adjustments as above
+        - Elderly: Monitor cardiac function during epinephrine use
+
+        **References:**
+        - AIIMS Guidelines on Emergency Medicine, 2023  
+        - Indian Academy of Pediatrics (IAP) Anaphylaxis Protocol  
+        - WHO & WAO Guidelines for Anaphylaxis Management
+        """)
+
+    elif selected_protocol == "Seizure":
+        st.subheader("Seizure / Status Epilepticus Management Protocol (India)")
+
+        st.markdown("""
+        ### 1️⃣ First Aid During a Seizure
+        - **Ensure patient safety**: move objects away, protect head.
+        - **Do NOT restrain the patient** or put objects in mouth.
+        - **Time the seizure**; note duration and type.
+        - **Place patient in lateral (recovery) position** once convulsions stop.
+        - Maintain **airway and breathing**.
+
+        ### 2️⃣ Initial Assessment
+        - Check **ABCs** (Airway, Breathing, Circulation).
+        - **Vitals:** BP, HR, SpO₂, temperature.
+        - **Blood glucose**: treat hypoglycemia if present.
+
+        ### 3️⃣ Investigations
+        - Blood: CBC, electrolytes, glucose, calcium, magnesium, renal and liver function.
+        - EEG: if available after stabilization.
+        - Neuroimaging (CT/MRI) if new-onset seizure or focal deficits.
+        - Toxicology screen if poisoning suspected.
+
+        ### 4️⃣ Acute Management (Status Epilepticus)
+        **First-line: Benzodiazepines**
+        - **IV Lorazepam:** 0.1 mg/kg (max 4 mg) over 2–5 min  
+        - **If IV unavailable:** Diazepam 0.2 mg/kg IV (max 10 mg) or Rectal Diazepam
+        - Repeat dose after 10–15 min if seizure persists.
+
+        **Second-line: Antiepileptics**
+        - **Phenytoin:** 20 mg/kg IV (max 1 g), slow infusion ≤50 mg/min
+        - **Fosphenytoin:** 20 mg PE/kg IV, faster and safer alternative
+        - Alternatives: Valproate IV 20–40 mg/kg, Levetiracetam IV 60 mg/kg
+
+        ### 5️⃣ Supportive Care
+        - Oxygen supplementation as needed
+        - Cardiac and respiratory monitoring
+        - Correct **electrolyte disturbances**
+        - Maintain **IV access**
+        - Monitor urine output
+
+        ### 6️⃣ Refractory Status Epilepticus
+        - Continuous infusion of **midazolam, propofol, or thiopentone** in ICU
+        - Intubation and mechanical ventilation if required
+        - Identify and treat underlying cause
+
+        ### 7️⃣ Observation & Follow-up
+        - Admit patient for monitoring if:
+            - Prolonged seizure >5 min
+            - New-onset seizure
+            - Focal neurological deficits
+        - Post-seizure care:
+            - Neuro assessment
+            - Medication review
+            - Patient and caregiver education
+
+        **References:**
+        - AIIMS Clinical Protocols: Status Epilepticus, 2023  
+        - Indian Epilepsy Society (IES) Guidelines  
+        - ILAE Guidelines on Status Epilepticus
+        """)
+
+    elif selected_protocol == "DKA":
+        st.subheader("Diabetic Ketoacidosis (DKA) Management Protocol (India)")
+
+        st.markdown("""
+        ### 1️⃣ Initial Assessment
+        - **Airway, Breathing, Circulation (ABCs)**
+        - **Level of consciousness**: use GCS
+        - **Vitals:** BP, HR, RR, SpO₂, temperature
+        - **Severity classification:** mild, moderate, severe DKA based on pH, bicarbonate, mental status
+
+        ### 2️⃣ Immediate Investigations
+        - Blood glucose
+        - Serum electrolytes: Na⁺, K⁺, Cl⁻, HCO₃⁻
+        - Renal function: urea, creatinine
+        - Serum ketones or urine ketones
+        - Arterial blood gas (ABG)
+        - CBC
+        - ECG (especially if K⁺ abnormal)
+        - Serum osmolality if hyperosmolar features suspected
+
+        ### 3️⃣ Initial Stabilization
+        - **IV fluids:** 
+            - Start with 0.9% NaCl 15–20 mL/kg (1–1.5 L) in first hour
+            - Adjust based on hemodynamics and hydration
+        - **Monitor vitals** and urine output
+        - **Correct potassium before insulin** if K⁺ < 3.3 mEq/L
+
+        ### 4️⃣ Electrolyte Management
+        - **Potassium replacement:**
+            - K⁺ 3.3–5.5 mEq/L: add 20–30 mEq K⁺ per L IV fluid
+            - K⁺ < 3.3 mEq/L: replace **before insulin**
+            - K⁺ > 5.5 mEq/L: monitor without supplementation initially
+        - **Other electrolytes:** correct phosphate and magnesium if needed
+
+        ### 5️⃣ Insulin Therapy
+        - **Regular insulin IV infusion:** 0.1 U/kg/h
+        - **Target glucose reduction:** 50–100 mg/dL per hour
+        - **Switch to subcutaneous insulin** once ketosis resolves and patient can eat
+
+        ### 6️⃣ Monitor & Adjust
+        - **Blood glucose:** hourly
+        - **Electrolytes:** every 2–4 hours
+        - **Fluid status**: input/output, hemodynamics
+        - **Acid-base status:** ABG every 4–6 hours
+        - Adjust insulin and fluids based on ongoing labs
+
+        ### 7️⃣ Transition to Subcutaneous Insulin
+        - Start **basal-bolus regimen** when:
+            - pH > 7.3
+            - Bicarbonate > 18 mEq/L
+            - Patient able to take oral intake
+
+        ### 8️⃣ Identify & Treat Precipitating Factors
+        - Infection
+        - MI or other acute illness
+        - Medication non-compliance
+
+        **References:**
+        - AIIMS Clinical Endocrinology Guidelines, 2023  
+        - ISPAD / ADA DKA Management Guidelines  
+        - Indian Journal of Endocrinology and Metabolism, DKA Protocol
+        """)
+
+
+    elif selected_protocol == "Acute MI":
+        st.subheader("Acute Myocardial Infarction (AMI) Management Protocol (India)")
+
+        st.markdown("""
+        ### 1️⃣ Immediate Assessment
+        - **Airway, Breathing, Circulation (ABCs)**
+        - **Vitals:** BP, HR, SpO₂, temperature
+        - **ECG:** perform **within 10 minutes** of arrival
+        - **Identify type of MI:** STEMI vs NSTEMI
+        - **Assess risk factors:** age, diabetes, hypertension, smoking, prior CAD
+
+        ### 2️⃣ Initial Investigations
+        - 12-lead ECG
+        - Cardiac biomarkers: Troponin I/T, CK-MB
+        - CBC, renal function, electrolytes
+        - Chest X-ray if pulmonary edema suspected
+        - Echocardiography for wall motion abnormalities if available
+
+        ### 3️⃣ Immediate Management (First Aid)
+        - **Oxygen** if SpO₂ < 90%
+        - **Aspirin 150–300 mg** orally, chewed
+        - **Nitroglycerin** sublingual 0.3–0.6 mg if no hypotension
+        - **Morphine** 2–4 mg IV for pain if not relieved by nitro
+        - **IV access** and continuous cardiac monitoring
+
+        ### 4️⃣ Reperfusion Strategy
+        **STEMI:**
+        - **Primary PCI** (preferred, within 120 min of first medical contact)
+        - If PCI not available: **Fibrinolysis** (alteplase, tenecteplase) within 30 min
+        - **Anticoagulation** with UFH or LMWH during reperfusion
+
+        **NSTEMI:**
+        - Risk stratification (TIMI / GRACE score)
+        - **Early invasive strategy** for high-risk patients
+        - **Medical management** for low-risk patients
+
+        ### 5️⃣ Adjunct Medications
+        - **Beta-blockers:** IV or oral if no hypotension or bradycardia
+        - **ACE inhibitors / ARBs:** start early if LV dysfunction, hypertension
+        - **Statins:** high-intensity (atorvastatin 40–80 mg)
+        - **Antiplatelets:** dual therapy (aspirin + clopidogrel/ticagrelor)
+        - **Anticoagulants:** UFH, enoxaparin as per protocol
+
+        ### 6️⃣ Monitoring & Supportive Care
+        - Continuous ECG monitoring
+        - Monitor for arrhythmias, heart failure, cardiogenic shock
+        - Serial cardiac biomarkers
+        - Manage complications: pulmonary edema, hypotension, ventricular arrhythmias
+
+        ### 7️⃣ Discharge & Secondary Prevention
+        - Lifestyle modification: smoking cessation, diet, exercise
+        - Continue **dual antiplatelet therapy** (DAPT)
+        - **Beta-blockers, ACE inhibitors/ARBs, statins**
+        - Cardiac rehabilitation referral
+        - Patient education on warning signs of recurrent MI
+
+        **References:**
+        - AIIMS Cardiology Protocols, 2023  
+        - Indian Council of Medical Research (ICMR) STEMI/NSTEMI Guidelines  
+        - European Society of Cardiology (ESC) Guidelines adapted for India
+        """)
+
+    elif selected_protocol == "Status Asthmaticus":
+        st.subheader("Status Asthmaticus Management Protocol (India)")
+
+        st.markdown("""
+        ### 1️⃣ Immediate Assessment
+        - **Airway, Breathing, Circulation (ABCs)**
+        - **Vitals:** BP, HR, RR, SpO₂, temperature
+        - **Severity assessment:**
+            - SpO₂ < 90%
+            - PEF < 50% predicted
+            - Inability to speak full sentences
+            - Use of accessory muscles
+
+        ### 2️⃣ First Aid / Initial Measures
+        - Place patient **upright** to aid breathing
+        - **Administer high-flow oxygen** to maintain SpO₂ ≥ 94%
+        - **Continuous cardiac and SpO₂ monitoring**
+        - Establish **IV access**
+
+        ### 3️⃣ Rapid-Acting Bronchodilators
+        - **Salbutamol (Albuterol)**
+            - Nebulization: 2.5 mg every 20 min for first hour, then q1–4h
+            - Alternative: MDI with spacer if available
+        - **Ipratropium bromide**: 0.5 mg nebulization every 6–8 h
+
+        ### 4️⃣ Systemic Corticosteroids
+        - **IV Hydrocortisone:** 4–8 mg/kg/day divided q6–8h (max 300 mg/day)
+        - **Oral Prednisolone:** 1–2 mg/kg/day if patient can swallow
+        - Continue for 5–7 days
+
+        ### 5️⃣ Adjunct / Escalation Therapy
+        - **Magnesium sulfate:** 25–75 mg/kg IV over 20 min if severe obstruction persists
+        - **Aminophylline IV infusion:** 5–6 mg/kg loading, then 0.5–1 mg/kg/h
+        - **Heliox or non-invasive ventilation** if available
+
+        ### 6️⃣ Monitoring & Supportive Care
+        - Continuous ECG, SpO₂, and blood pressure
+        - Monitor mental status for CO₂ retention
+        - Repeat **PEF or spirometry** if feasible
+        - Assess response to therapy every 15–30 min
+
+        ### 7️⃣ Indications for ICU / Intubation
+        - Altered consciousness
+        - Respiratory fatigue or PaCO₂ rising
+        - Hypoxemia not improving with oxygen
+        - Impending respiratory arrest
+
+        ### 8️⃣ Discharge & Follow-up
+        - Continue inhaled bronchodilators and oral steroids
+        - Educate patient and caregivers on:
+            - Trigger avoidance
+            - Early recognition of exacerbations
+            - Proper inhaler technique
+        - Schedule **follow-up with pulmonologist**
+
+        **References:**
+        - AIIMS Asthma Management Guidelines, 2023  
+        - GINA 2023 Guidelines (adapted for India)  
+        - Indian Journal of Pediatrics: Severe Asthma Protocols
+        """)
+
 
 st.markdown("---")
 
