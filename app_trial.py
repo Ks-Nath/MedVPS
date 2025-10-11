@@ -1392,62 +1392,69 @@ elif app_mode == "Indian Protocols":
     if selected_protocol == "OP Poisoning":
         st.subheader("Organophosphorus (OP) Poisoning Management Protocol (AIIMS)")
 
+        with st.expander("1️⃣ Initial Assessment"):
+            st.markdown("""
+            - Ensure **patient and rescuer safety**.
+            - Assess **airway, breathing, circulation (ABCs)**.
+            - Remove **contaminated clothing**.
+            - Wash skin thoroughly with **soap and running water**.
+            - **Do not induce vomiting** unless instructed in hospital.""")
+
+        with st.expander("2️⃣ Clinical Features"):
+            st.markdown("""
+            OP poisoning leads to **cholinergic excess**. Look for:
+
+            | Feature Type | Examples |
+            |--------------|---------|
+            | **Muscarinic** | Salivation, lacrimation, urination, diarrhea, GI cramps, miosis, bronchospasm |
+            | **Nicotinic** | Muscle fasciculations, weakness, paralysis, hypertension, tachycardia |
+            | **CNS** | Anxiety, confusion, seizures, coma |""")
+
+        with st.expander("3️⃣ Investigations"):
+            st.markdown("""
+            - **Bedside:** 20-min Whole Blood Clotting Test (20WBCT) if snakebite suspected too.
+            - **Lab:** CBC, RFT, LFT, Serum Cholinesterase (if available)
+            - ABG, electrolytes, ECG (for cardiac monitoring)""")
+
+        with st.expander("4️⃣ Decontamination & Supportive Care"):
+            st.markdown("""
+            - **Remove contaminated clothing** and wash exposed skin.
+            - **Airway management**: Oxygen, suction if excessive secretions.
+            - **IV fluids** to maintain perfusion.
+            - Monitor vitals, urine output, and oxygen saturation.
+            - Treat **seizures** with benzodiazepines (e.g., lorazepam, diazepam).""")
+
+        with st.expander("5️⃣ Antidotes"):
+            st.markdown("""
+            **Atropine (Muscarinic Antagonist)**
+            - Initial dose: 1–2 mg IV in adults (0.05 mg/kg in children)
+            - Double dose every 5–10 min until signs of **atropinization**:
+                - Drying of secretions
+                - Pupils mid-dilated
+                - Heart rate normalized
+            - **Maintenance infusion**: 10–20% of total loading dose per hour
+
+            **Pralidoxime (2-PAM, Oxime)**
+            - Reverses nicotinic effects
+            - Dose: 30 mg/kg IV over 15–30 min, may repeat q6–12h
+            - Start **early** (within 24h of ingestion) for maximal benefit""")
+
+        with st.expander("6️⃣ Monitoring"):
+            st.markdown("""
+            - Continuous cardiac monitoring
+            - Reassess for atropinization signs and dose adjustments
+            - Watch for **intermediate syndrome** (2–4 days post-ingestion):
+                - Limb and neck weakness
+                - Respiratory muscle involvement
+                - Requires ventilatory support if needed""")
+
+        with st.expander("7️⃣ Discharge & Follow-up"):
+            st.markdown("""
+            - Discharge when **stable, symptom-free, and cholinesterase improving**
+            - Educate patient and caregivers on **safe storage of pesticides**
+            - Consider **psychiatric evaluation** if intentional poisoning""")
+
         st.markdown("""
-        ### 1️⃣ Initial Assessment
-        - Ensure **patient and rescuer safety**.
-        - Assess **airway, breathing, circulation (ABCs)**.
-        - Remove **contaminated clothing**.
-        - Wash skin thoroughly with **soap and running water**.
-        - **Do not induce vomiting** unless instructed in hospital.
-
-        ### 2️⃣ Clinical Features
-        OP poisoning leads to **cholinergic excess**. Look for:
-
-        | Feature Type | Examples |
-        |--------------|---------|
-        | **Muscarinic** | Salivation, lacrimation, urination, diarrhea, GI cramps, miosis, bronchospasm |
-        | **Nicotinic** | Muscle fasciculations, weakness, paralysis, hypertension, tachycardia |
-        | **CNS** | Anxiety, confusion, seizures, coma |
-
-        ### 3️⃣ Investigations
-        - **Bedside:** 20-min Whole Blood Clotting Test (20WBCT) if snakebite suspected too.
-        - **Lab:** CBC, RFT, LFT, Serum Cholinesterase (if available)
-        - ABG, electrolytes, ECG (for cardiac monitoring)
-
-        ### 4️⃣ Decontamination & Supportive Care
-        - **Remove contaminated clothing** and wash exposed skin.
-        - **Airway management**: Oxygen, suction if excessive secretions.
-        - **IV fluids** to maintain perfusion.
-        - Monitor vitals, urine output, and oxygen saturation.
-        - Treat **seizures** with benzodiazepines (e.g., lorazepam, diazepam).
-
-        ### 5️⃣ Antidotes
-        **Atropine (Muscarinic Antagonist)**
-        - Initial dose: 1–2 mg IV in adults (0.05 mg/kg in children)
-        - Double dose every 5–10 min until signs of **atropinization**:
-            - Drying of secretions
-            - Pupils mid-dilated
-            - Heart rate normalized
-        - **Maintenance infusion**: 10–20% of total loading dose per hour
-
-        **Pralidoxime (2-PAM, Oxime)**
-        - Reverses nicotinic effects
-        - Dose: 30 mg/kg IV over 15–30 min, may repeat q6–12h
-        - Start **early** (within 24h of ingestion) for maximal benefit
-
-        ### 6️⃣ Monitoring
-        - Continuous cardiac monitoring
-        - Reassess for atropinization signs and dose adjustments
-        - Watch for **intermediate syndrome** (2–4 days post-ingestion):
-            - Limb and neck weakness
-            - Respiratory muscle involvement
-            - Requires ventilatory support if needed
-
-        ### 7️⃣ Discharge & Follow-up
-        - Discharge when **stable, symptom-free, and cholinesterase improving**
-        - Educate patient and caregivers on **safe storage of pesticides**
-        - Consider **psychiatric evaluation** if intentional poisoning
-
         **References:**
         - AIIMS Clinical Toxicology Protocols, 2023  
         - Indian Journal of Critical Care Medicine: OP Poisoning Guidelines  
@@ -1520,46 +1527,52 @@ elif app_mode == "Indian Protocols":
     elif selected_protocol == "Rabies":
         st.subheader("Rabies Post-Exposure Prophylaxis (PEP) Protocol (India)")
 
+        with st.expander("1️⃣ Immediate First Aid (Wound Management)"):
+            st.markdown("""
+            - **Wash the wound immediately** with **soap and running water for ≥15 minutes**.
+            - **Apply antiseptic**: 70% ethanol, povidone-iodine, or other recommended disinfectant.
+            - **Do NOT suture** the wound unless necessary; if suturing is done, avoid injecting vaccine at that site.
+            - Remove any contaminated clothing near the bite.""")
+
+        with st.expander("2️⃣ Exposure Assessment"):
+            st.markdown("""
+            - Classify exposure using **WHO categories**:
+
+            | Category | Description | Risk / PEP Requirement |
+            |----------|------------|----------------------|
+            | I        | Touching/feeding animals, licks on intact skin | None – PEP not required |
+            | II       | Nibbling of uncovered skin, minor scratches/abrasions **without bleeding** | Moderate – PEP indicated |
+            | III      | Transdermal bites, scratches, licks on broken skin, mucous membrane contamination | High – PEP indicated **with RIG** |
+
+            - Identify the **animal species** if possible.""")
+
+        with st.expander("3️⃣ Vaccination Schedule"):
+            st.markdown("""
+            **Essen 5-dose regimen (IM):** Day 0, 3, 7, 14, 28  
+            **Intradermal 2-site regimen (Thai Red Cross):** Day 0, 3, 7, 28  
+            - Use **Cell Culture Vaccine (CCV) or Purified Vero Cell Vaccine (PVRV)**  
+            - **Nerve Tissue Vaccines** are not recommended""")
+
+        with st.expander("4️⃣ Rabies Immunoglobulin (RIG)"):
+            st.markdown("""
+            - Indicated for **Category III exposures**  
+            - **Human RIG (HRIG) / Equine RIG (ERIG)**: infiltrate **around the wound**  
+            - Dose: HRIG 20 IU/kg, ERIG 40 IU/kg  
+            - Remaining RIG (if any) can be given **IM at site distant from vaccine**""")
+
+        with st.expander("5️⃣ Monitoring & Follow-up"):
+            st.markdon("""
+            - Complete all **vaccine doses**
+            - Monitor wound for infection
+            - Advise patient to report any **neurological symptoms**""")
+
+        with st.expander("6️⃣ Special Considerations"):
+            st.markdown("""
+            - Pregnant or immunocompromised patients: **same PEP schedule**  
+            - Previously vaccinated: 2 booster doses only (Day 0 and Day 3)  
+            - RIG not required for previously fully vaccinated individuals""")
+
         st.markdown("""
-        ### 1️⃣ Immediate First Aid (Wound Management)
-        - **Wash the wound immediately** with **soap and running water for ≥15 minutes**.
-        - **Apply antiseptic**: 70% ethanol, povidone-iodine, or other recommended disinfectant.
-        - **Do NOT suture** the wound unless necessary; if suturing is done, avoid injecting vaccine at that site.
-        - Remove any contaminated clothing near the bite.
-
-        ### 2️⃣ Exposure Assessment
-        - Classify exposure using **WHO categories**:
-
-        | Category | Description | Risk / PEP Requirement |
-        |----------|------------|----------------------|
-        | I        | Touching/feeding animals, licks on intact skin | None – PEP not required |
-        | II       | Nibbling of uncovered skin, minor scratches/abrasions **without bleeding** | Moderate – PEP indicated |
-        | III      | Transdermal bites, scratches, licks on broken skin, mucous membrane contamination | High – PEP indicated **with RIG** |
-
-        - Identify the **animal species** if possible.
-
-        ### 3️⃣ Vaccination Schedule
-        **Essen 5-dose regimen (IM):** Day 0, 3, 7, 14, 28  
-        **Intradermal 2-site regimen (Thai Red Cross):** Day 0, 3, 7, 28  
-        - Use **Cell Culture Vaccine (CCV) or Purified Vero Cell Vaccine (PVRV)**  
-        - **Nerve Tissue Vaccines** are not recommended
-
-        ### 4️⃣ Rabies Immunoglobulin (RIG)
-        - Indicated for **Category III exposures**  
-        - **Human RIG (HRIG) / Equine RIG (ERIG)**: infiltrate **around the wound**  
-        - Dose: HRIG 20 IU/kg, ERIG 40 IU/kg  
-        - Remaining RIG (if any) can be given **IM at site distant from vaccine**
-
-        ### 5️⃣ Monitoring & Follow-up
-        - Complete all **vaccine doses**
-        - Monitor wound for infection
-        - Advise patient to report any **neurological symptoms**
-
-        ### 6️⃣ Special Considerations
-        - Pregnant or immunocompromised patients: **same PEP schedule**  
-        - Previously vaccinated: 2 booster doses only (Day 0 and Day 3)  
-        - RIG not required for previously fully vaccinated individuals
-
         **References:**
         - NCDC Rabies Guidelines, India, 2023  
         - AIIMS Clinical Protocols for Rabies PEP  
@@ -1569,56 +1582,62 @@ elif app_mode == "Indian Protocols":
     elif selected_protocol == "Anaphylaxis":
         st.subheader("Anaphylaxis Management Protocol (India)")
 
+        with st.expander("1️⃣ Immediate First Aid"):
+            st.markdown("""
+            - **Call for help / emergency services immediately**.
+            - **Assess ABCs**:
+                - **Airway:** Check for obstruction (laryngeal edema, tongue swelling)
+                - **Breathing:** Look for wheezing, stridor, cyanosis
+                - **Circulation:** Monitor pulse, blood pressure
+            - **Position patient**:
+                - Supine with legs elevated (if hypotensive)
+                - Upright if severe respiratory distress
+            - Remove **trigger** if known (insect sting, drug, food).""")
+
+        with st.expander("2️⃣ First-Line Drug: Epinephrine"):
+            st.markdown("""
+            - **Dose:** 0.01 mg/kg IM (max 0.5 mg)  
+            - Adults: 0.5 mg IM  
+            - Children: 0.01 mg/kg IM  
+            - **Site:** Mid-outer thigh  
+            - Repeat every 5–15 min if symptoms persist""")
+
+        with st.expander("3️⃣ Supportive Care"):
+            st.markdown("""
+            - **Oxygen:** High-flow via mask if hypoxic
+            - **IV fluids:** 20 mL/kg crystalloid bolus for hypotension
+            - **Airway support:** Prepare for intubation if airway compromise
+            - **Monitor vitals:** BP, HR, SpO₂, urine output""")
+
+        with st.expander("4️⃣ Adjunct Medications"): 
+            st.markdown("""
+            - **Antihistamines:** 
+                - Diphenhydramine 25–50 mg IV/IM (adults)
+                - Children: 1 mg/kg IV/IM
+            - **Corticosteroids:** 
+                - Hydrocortisone 4–8 mg/kg IV (max 300 mg)
+                - Prevents biphasic reaction (not for immediate symptom relief)
+            - **Bronchodilators:** Salbutamol nebulization if wheezing persists""")
+
+        with st.expander("5️⃣ Observation & Follow-up"):
+            st.markdown("""
+            - **Monitor patient for at least 4–6 hours** after symptom resolution
+            - **Admit if:**
+                - Severe anaphylaxis
+                - Comorbidities (asthma, cardiovascular disease)
+                - Delayed or biphasic reaction risk
+            - **Educate patient:**
+                - Avoid triggers
+                - Prescribe **epinephrine auto-injector** if available
+                - Follow-up with allergist""")
+
+        with st.expander("6️⃣ Special Considerations"):
+            st.markdown("""
+            - Pregnancy: Epinephrine **first-line**, same dose
+            - Children: Dose adjustments as above
+            - Elderly: Monitor cardiac function during epinephrine use""")
+        
         st.markdown("""
-        ### 1️⃣ Immediate First Aid
-        - **Call for help / emergency services immediately**.
-        - **Assess ABCs**:
-            - **Airway:** Check for obstruction (laryngeal edema, tongue swelling)
-            - **Breathing:** Look for wheezing, stridor, cyanosis
-            - **Circulation:** Monitor pulse, blood pressure
-        - **Position patient**:
-            - Supine with legs elevated (if hypotensive)
-            - Upright if severe respiratory distress
-        - Remove **trigger** if known (insect sting, drug, food).
-
-        ### 2️⃣ First-Line Drug: Epinephrine
-        - **Dose:** 0.01 mg/kg IM (max 0.5 mg)  
-        - Adults: 0.5 mg IM  
-        - Children: 0.01 mg/kg IM  
-        - **Site:** Mid-outer thigh  
-        - Repeat every 5–15 min if symptoms persist
-
-        ### 3️⃣ Supportive Care
-        - **Oxygen:** High-flow via mask if hypoxic
-        - **IV fluids:** 20 mL/kg crystalloid bolus for hypotension
-        - **Airway support:** Prepare for intubation if airway compromise
-        - **Monitor vitals:** BP, HR, SpO₂, urine output
-
-        ### 4️⃣ Adjunct Medications
-        - **Antihistamines:** 
-            - Diphenhydramine 25–50 mg IV/IM (adults)
-            - Children: 1 mg/kg IV/IM
-        - **Corticosteroids:** 
-            - Hydrocortisone 4–8 mg/kg IV (max 300 mg)
-            - Prevents biphasic reaction (not for immediate symptom relief)
-        - **Bronchodilators:** Salbutamol nebulization if wheezing persists
-
-        ### 5️⃣ Observation & Follow-up
-        - **Monitor patient for at least 4–6 hours** after symptom resolution
-        - **Admit if:**
-            - Severe anaphylaxis
-            - Comorbidities (asthma, cardiovascular disease)
-            - Delayed or biphasic reaction risk
-        - **Educate patient:**
-            - Avoid triggers
-            - Prescribe **epinephrine auto-injector** if available
-            - Follow-up with allergist
-
-        ### 6️⃣ Special Considerations
-        - Pregnancy: Epinephrine **first-line**, same dose
-        - Children: Dose adjustments as above
-        - Elderly: Monitor cardiac function during epinephrine use
-
         **References:**
         - AIIMS Guidelines on Emergency Medicine, 2023  
         - Indian Academy of Pediatrics (IAP) Anaphylaxis Protocol  
@@ -1628,58 +1647,65 @@ elif app_mode == "Indian Protocols":
     elif selected_protocol == "Seizure":
         st.subheader("Seizure / Status Epilepticus Management Protocol (India)")
 
+        with st.expander("1️⃣ First Aid During a Seizure"):
+            st.markdown("""
+            - **Ensure patient safety**: move objects away, protect head.
+            - **Do NOT restrain the patient** or put objects in mouth.
+            - **Time the seizure**; note duration and type.
+            - **Place patient in lateral (recovery) position** once convulsions stop.
+            - Maintain **airway and breathing**.""")
+
+        with st.expander("2️⃣ Initial Assessment"):
+            st.markdown("""
+            - Check **ABCs** (Airway, Breathing, Circulation).
+            - **Vitals:** BP, HR, SpO₂, temperature.
+            - **Blood glucose**: treat hypoglycemia if present.""")
+
+        with st.expander("3️⃣ Investigations"):
+            st.markdown("""
+            - Blood: CBC, electrolytes, glucose, calcium, magnesium, renal and liver function.
+            - EEG: if available after stabilization.
+            - Neuroimaging (CT/MRI) if new-onset seizure or focal deficits.
+            - Toxicology screen if poisoning suspected.""")
+
+        with st.expander("4️⃣ Acute Management (Status Epilepticus)"):
+            st.markdown("""
+            **First-line: Benzodiazepines**
+            - **IV Lorazepam:** 0.1 mg/kg (max 4 mg) over 2–5 min  
+            - **If IV unavailable:** Diazepam 0.2 mg/kg IV (max 10 mg) or Rectal Diazepam
+            - Repeat dose after 10–15 min if seizure persists.
+
+            **Second-line: Antiepileptics**
+            - **Phenytoin:** 20 mg/kg IV (max 1 g), slow infusion ≤50 mg/min
+            - **Fosphenytoin:** 20 mg PE/kg IV, faster and safer alternative
+            - Alternatives: Valproate IV 20–40 mg/kg, Levetiracetam IV 60 mg/kg""")
+
+        with st.expander("5️⃣ Supportive Care"):
+            st.markdown("""
+            - Oxygen supplementation as needed
+            - Cardiac and respiratory monitoring
+            - Correct **electrolyte disturbances**
+            - Maintain **IV access**
+            - Monitor urine output""")
+
+        with st.expander("6️⃣ Refractory Status Epilepticus"):
+            st.markdown("""
+            - Continuous infusion of **midazolam, propofol, or thiopentone** in ICU
+            - Intubation and mechanical ventilation if required
+            - Identify and treat underlying cause""")
+
+        with st.expander("7️⃣ Observation & Follow-up"):
+            st.markdown("""
+            - Admit patient for monitoring if:
+                - Prolonged seizure >5 min
+                - New-onset seizure
+                - Focal neurological deficits
+            - Post-seizure care:
+                - Neuro assessment
+                - Medication review
+                - Patient and caregiver education""")
+            
         st.markdown("""
-        ### 1️⃣ First Aid During a Seizure
-        - **Ensure patient safety**: move objects away, protect head.
-        - **Do NOT restrain the patient** or put objects in mouth.
-        - **Time the seizure**; note duration and type.
-        - **Place patient in lateral (recovery) position** once convulsions stop.
-        - Maintain **airway and breathing**.
-
-        ### 2️⃣ Initial Assessment
-        - Check **ABCs** (Airway, Breathing, Circulation).
-        - **Vitals:** BP, HR, SpO₂, temperature.
-        - **Blood glucose**: treat hypoglycemia if present.
-
-        ### 3️⃣ Investigations
-        - Blood: CBC, electrolytes, glucose, calcium, magnesium, renal and liver function.
-        - EEG: if available after stabilization.
-        - Neuroimaging (CT/MRI) if new-onset seizure or focal deficits.
-        - Toxicology screen if poisoning suspected.
-
-        ### 4️⃣ Acute Management (Status Epilepticus)
-        **First-line: Benzodiazepines**
-        - **IV Lorazepam:** 0.1 mg/kg (max 4 mg) over 2–5 min  
-        - **If IV unavailable:** Diazepam 0.2 mg/kg IV (max 10 mg) or Rectal Diazepam
-        - Repeat dose after 10–15 min if seizure persists.
-
-        **Second-line: Antiepileptics**
-        - **Phenytoin:** 20 mg/kg IV (max 1 g), slow infusion ≤50 mg/min
-        - **Fosphenytoin:** 20 mg PE/kg IV, faster and safer alternative
-        - Alternatives: Valproate IV 20–40 mg/kg, Levetiracetam IV 60 mg/kg
-
-        ### 5️⃣ Supportive Care
-        - Oxygen supplementation as needed
-        - Cardiac and respiratory monitoring
-        - Correct **electrolyte disturbances**
-        - Maintain **IV access**
-        - Monitor urine output
-
-        ### 6️⃣ Refractory Status Epilepticus
-        - Continuous infusion of **midazolam, propofol, or thiopentone** in ICU
-        - Intubation and mechanical ventilation if required
-        - Identify and treat underlying cause
-
-        ### 7️⃣ Observation & Follow-up
-        - Admit patient for monitoring if:
-            - Prolonged seizure >5 min
-            - New-onset seizure
-            - Focal neurological deficits
-        - Post-seizure care:
-            - Neuro assessment
-            - Medication review
-            - Patient and caregiver education
-
         **References:**
         - AIIMS Clinical Protocols: Status Epilepticus, 2023  
         - Indian Epilepsy Society (IES) Guidelines  
@@ -1689,60 +1715,68 @@ elif app_mode == "Indian Protocols":
     elif selected_protocol == "DKA":
         st.subheader("Diabetic Ketoacidosis (DKA) Management Protocol (India)")
 
+        with st.expander("1️⃣ Initial Assessment"):
+            st.markdown("""
+            - **Airway, Breathing, Circulation (ABCs)**
+            - **Level of consciousness**: use GCS
+            - **Vitals:** BP, HR, RR, SpO₂, temperature
+            - **Severity classification:** mild, moderate, severe DKA based on pH, bicarbonate, mental status""")
+
+        with st.expander("2️⃣ Immediate Investigations"):
+            st.markdown("""
+            - Blood glucose
+            - Serum electrolytes: Na⁺, K⁺, Cl⁻, HCO₃⁻
+            - Renal function: urea, creatinine
+            - Serum ketones or urine ketones
+            - Arterial blood gas (ABG)
+            - CBC
+            - ECG (especially if K⁺ abnormal)
+            - Serum osmolality if hyperosmolar features suspected""")
+
+        with st.expander("3️⃣ Initial Stabilization"):
+            st.markdown("""
+            - **IV fluids:** 
+                - Start with 0.9% NaCl 15–20 mL/kg (1–1.5 L) in first hour
+                - Adjust based on hemodynamics and hydration
+            - **Monitor vitals** and urine output
+            - **Correct potassium before insulin** if K⁺ < 3.3 mEq/L""")
+
+        with st.expander("4️⃣ Electrolyte Management"):
+            st.markdown("""
+            - **Potassium replacement:**
+                - K⁺ 3.3–5.5 mEq/L: add 20–30 mEq K⁺ per L IV fluid
+                - K⁺ < 3.3 mEq/L: replace **before insulin**
+                - K⁺ > 5.5 mEq/L: monitor without supplementation initially
+            - **Other electrolytes:** correct phosphate and magnesium if needed""")
+
+        with st.expander("5️⃣ Insulin Therapy"):
+            st.markdown("""
+            - **Regular insulin IV infusion:** 0.1 U/kg/h
+            - **Target glucose reduction:** 50–100 mg/dL per hour
+            - **Switch to subcutaneous insulin** once ketosis resolves and patient can eat""")
+
+        with st.expander("6️⃣ Monitor & Adjust"):
+            st.markdown("""
+            - **Blood glucose:** hourly
+            - **Electrolytes:** every 2–4 hours
+            - **Fluid status**: input/output, hemodynamics
+            - **Acid-base status:** ABG every 4–6 hours
+            - Adjust insulin and fluids based on ongoing labs""")
+
+        with st.expander("7️⃣ Transition to Subcutaneous Insulin"):
+            st.markdown("""
+            - Start **basal-bolus regimen** when:
+                - pH > 7.3
+                - Bicarbonate > 18 mEq/L
+                - Patient able to take oral intake""")
+
+        with st.expander("8️⃣ Identify & Treat Precipitating Factors"):
+            st.markdown("""
+            - Infection
+            - MI or other acute illness
+            - Medication non-compliance""")
+
         st.markdown("""
-        ### 1️⃣ Initial Assessment
-        - **Airway, Breathing, Circulation (ABCs)**
-        - **Level of consciousness**: use GCS
-        - **Vitals:** BP, HR, RR, SpO₂, temperature
-        - **Severity classification:** mild, moderate, severe DKA based on pH, bicarbonate, mental status
-
-        ### 2️⃣ Immediate Investigations
-        - Blood glucose
-        - Serum electrolytes: Na⁺, K⁺, Cl⁻, HCO₃⁻
-        - Renal function: urea, creatinine
-        - Serum ketones or urine ketones
-        - Arterial blood gas (ABG)
-        - CBC
-        - ECG (especially if K⁺ abnormal)
-        - Serum osmolality if hyperosmolar features suspected
-
-        ### 3️⃣ Initial Stabilization
-        - **IV fluids:** 
-            - Start with 0.9% NaCl 15–20 mL/kg (1–1.5 L) in first hour
-            - Adjust based on hemodynamics and hydration
-        - **Monitor vitals** and urine output
-        - **Correct potassium before insulin** if K⁺ < 3.3 mEq/L
-
-        ### 4️⃣ Electrolyte Management
-        - **Potassium replacement:**
-            - K⁺ 3.3–5.5 mEq/L: add 20–30 mEq K⁺ per L IV fluid
-            - K⁺ < 3.3 mEq/L: replace **before insulin**
-            - K⁺ > 5.5 mEq/L: monitor without supplementation initially
-        - **Other electrolytes:** correct phosphate and magnesium if needed
-
-        ### 5️⃣ Insulin Therapy
-        - **Regular insulin IV infusion:** 0.1 U/kg/h
-        - **Target glucose reduction:** 50–100 mg/dL per hour
-        - **Switch to subcutaneous insulin** once ketosis resolves and patient can eat
-
-        ### 6️⃣ Monitor & Adjust
-        - **Blood glucose:** hourly
-        - **Electrolytes:** every 2–4 hours
-        - **Fluid status**: input/output, hemodynamics
-        - **Acid-base status:** ABG every 4–6 hours
-        - Adjust insulin and fluids based on ongoing labs
-
-        ### 7️⃣ Transition to Subcutaneous Insulin
-        - Start **basal-bolus regimen** when:
-            - pH > 7.3
-            - Bicarbonate > 18 mEq/L
-            - Patient able to take oral intake
-
-        ### 8️⃣ Identify & Treat Precipitating Factors
-        - Infection
-        - MI or other acute illness
-        - Medication non-compliance
-
         **References:**
         - AIIMS Clinical Endocrinology Guidelines, 2023  
         - ISPAD / ADA DKA Management Guidelines  
@@ -1753,59 +1787,66 @@ elif app_mode == "Indian Protocols":
     elif selected_protocol == "Acute MI":
         st.subheader("Acute Myocardial Infarction (AMI) Management Protocol (India)")
 
+        with st.expander("1️⃣ Immediate Assessment"):
+            st.markdown("""
+            - **Airway, Breathing, Circulation (ABCs)**
+            - **Vitals:** BP, HR, SpO₂, temperature
+            - **ECG:** perform **within 10 minutes** of arrival
+            - **Identify type of MI:** STEMI vs NSTEMI
+            - **Assess risk factors:** age, diabetes, hypertension, smoking, prior CAD""")
+
+        with st.expander("2️⃣ Initial Investigations"): 
+            st.markdown("""
+            - 12-lead ECG
+            - Cardiac biomarkers: Troponin I/T, CK-MB
+            - CBC, renal function, electrolytes
+            - Chest X-ray if pulmonary edema suspected
+            - Echocardiography for wall motion abnormalities if available""")
+
+        with st.expander("3️⃣ Immediate Management (First Aid)"):
+            st.markdown("""
+            - **Oxygen** if SpO₂ < 90%
+            - **Aspirin 150–300 mg** orally, chewed
+            - **Nitroglycerin** sublingual 0.3–0.6 mg if no hypotension
+            - **Morphine** 2–4 mg IV for pain if not relieved by nitro
+            - **IV access** and continuous cardiac monitoring""")
+
+        with st.expander("4️⃣ Reperfusion Strategy"): 
+            st.markdown("""
+            **STEMI:**
+            - **Primary PCI** (preferred, within 120 min of first medical contact)
+            - If PCI not available: **Fibrinolysis** (alteplase, tenecteplase) within 30 min
+            - **Anticoagulation** with UFH or LMWH during reperfusion
+
+            **NSTEMI:**
+            - Risk stratification (TIMI / GRACE score)
+            - **Early invasive strategy** for high-risk patients
+            - **Medical management** for low-risk patients""")
+
+        with st.expander("5️⃣ Adjunct Medications"):
+            st.markdown("""
+            - **Beta-blockers:** IV or oral if no hypotension or bradycardia
+            - **ACE inhibitors / ARBs:** start early if LV dysfunction, hypertension
+            - **Statins:** high-intensity (atorvastatin 40–80 mg)
+            - **Antiplatelets:** dual therapy (aspirin + clopidogrel/ticagrelor)
+            - **Anticoagulants:** UFH, enoxaparin as per protocol""")
+
+        with st.expander("6️⃣ Monitoring & Supportive Care"):
+            st.markdown("""
+            - Continuous ECG monitoring
+            - Monitor for arrhythmias, heart failure, cardiogenic shock
+            - Serial cardiac biomarkers
+            - Manage complications: pulmonary edema, hypotension, ventricular arrhythmias""")
+
+        with st.expander("7️⃣ Discharge & Secondary Prevention"):
+            st.markdown("""
+            - Lifestyle modification: smoking cessation, diet, exercise
+            - Continue **dual antiplatelet therapy** (DAPT)
+            - **Beta-blockers, ACE inhibitors/ARBs, statins**
+            - Cardiac rehabilitation referral
+            - Patient education on warning signs of recurrent MI""")
+
         st.markdown("""
-        ### 1️⃣ Immediate Assessment
-        - **Airway, Breathing, Circulation (ABCs)**
-        - **Vitals:** BP, HR, SpO₂, temperature
-        - **ECG:** perform **within 10 minutes** of arrival
-        - **Identify type of MI:** STEMI vs NSTEMI
-        - **Assess risk factors:** age, diabetes, hypertension, smoking, prior CAD
-
-        ### 2️⃣ Initial Investigations
-        - 12-lead ECG
-        - Cardiac biomarkers: Troponin I/T, CK-MB
-        - CBC, renal function, electrolytes
-        - Chest X-ray if pulmonary edema suspected
-        - Echocardiography for wall motion abnormalities if available
-
-        ### 3️⃣ Immediate Management (First Aid)
-        - **Oxygen** if SpO₂ < 90%
-        - **Aspirin 150–300 mg** orally, chewed
-        - **Nitroglycerin** sublingual 0.3–0.6 mg if no hypotension
-        - **Morphine** 2–4 mg IV for pain if not relieved by nitro
-        - **IV access** and continuous cardiac monitoring
-
-        ### 4️⃣ Reperfusion Strategy
-        **STEMI:**
-        - **Primary PCI** (preferred, within 120 min of first medical contact)
-        - If PCI not available: **Fibrinolysis** (alteplase, tenecteplase) within 30 min
-        - **Anticoagulation** with UFH or LMWH during reperfusion
-
-        **NSTEMI:**
-        - Risk stratification (TIMI / GRACE score)
-        - **Early invasive strategy** for high-risk patients
-        - **Medical management** for low-risk patients
-
-        ### 5️⃣ Adjunct Medications
-        - **Beta-blockers:** IV or oral if no hypotension or bradycardia
-        - **ACE inhibitors / ARBs:** start early if LV dysfunction, hypertension
-        - **Statins:** high-intensity (atorvastatin 40–80 mg)
-        - **Antiplatelets:** dual therapy (aspirin + clopidogrel/ticagrelor)
-        - **Anticoagulants:** UFH, enoxaparin as per protocol
-
-        ### 6️⃣ Monitoring & Supportive Care
-        - Continuous ECG monitoring
-        - Monitor for arrhythmias, heart failure, cardiogenic shock
-        - Serial cardiac biomarkers
-        - Manage complications: pulmonary edema, hypotension, ventricular arrhythmias
-
-        ### 7️⃣ Discharge & Secondary Prevention
-        - Lifestyle modification: smoking cessation, diet, exercise
-        - Continue **dual antiplatelet therapy** (DAPT)
-        - **Beta-blockers, ACE inhibitors/ARBs, statins**
-        - Cardiac rehabilitation referral
-        - Patient education on warning signs of recurrent MI
-
         **References:**
         - AIIMS Cardiology Protocols, 2023  
         - Indian Council of Medical Research (ICMR) STEMI/NSTEMI Guidelines  
@@ -1815,58 +1856,66 @@ elif app_mode == "Indian Protocols":
     elif selected_protocol == "Status Asthmaticus":
         st.subheader("Status Asthmaticus Management Protocol (India)")
 
+        with st.expander("1️⃣ Immediate Assessment"):
+            st.markdown("""
+            - **Airway, Breathing, Circulation (ABCs)**
+            - **Vitals:** BP, HR, RR, SpO₂, temperature
+            - **Severity assessment:**
+                - SpO₂ < 90%
+                - PEF < 50% predicted
+                - Inability to speak full sentences
+                - Use of accessory muscles""")
+
+        with st.expander("2️⃣ First Aid / Initial Measures"):
+            st.markdown("""
+            - Place patient **upright** to aid breathing
+            - **Administer high-flow oxygen** to maintain SpO₂ ≥ 94%
+            - **Continuous cardiac and SpO₂ monitoring**
+            - Establish **IV access**""")
+
+        with st.expander("3️⃣ Rapid-Acting Bronchodilators"):
+            st.markdown("""
+            - **Salbutamol (Albuterol)**
+                - Nebulization: 2.5 mg every 20 min for first hour, then q1–4h
+                - Alternative: MDI with spacer if available
+            - **Ipratropium bromide**: 0.5 mg nebulization every 6–8 h""")
+
+        with st.expander("4️⃣ Systemic Corticosteroids"):
+            st.markdown("""
+            - **IV Hydrocortisone:** 4–8 mg/kg/day divided q6–8h (max 300 mg/day)
+            - **Oral Prednisolone:** 1–2 mg/kg/day if patient can swallow
+            - Continue for 5–7 days""")
+
+        with st.expander("5️⃣ Adjunct / Escalation Therapy"):
+            st.markdown("""
+            - **Magnesium sulfate:** 25–75 mg/kg IV over 20 min if severe obstruction persists
+            - **Aminophylline IV infusion:** 5–6 mg/kg loading, then 0.5–1 mg/kg/h
+            - **Heliox or non-invasive ventilation** if available""")
+
+        with st.expander("6️⃣ Monitoring & Supportive Care"):
+            st.markdown("""
+            - Continuous ECG, SpO₂, and blood pressure
+            - Monitor mental status for CO₂ retention
+            - Repeat **PEF or spirometry** if feasible
+            - Assess response to therapy every 15–30 min""")
+
+        with st.expander("7️⃣ Indications for ICU / Intubation"):
+            st.markdown("""
+            - Altered consciousness
+            - Respiratory fatigue or PaCO₂ rising
+            - Hypoxemia not improving with oxygen
+            - Impending respiratory arrest""")
+
+        with st.expander("8️⃣ Discharge & Follow-up"):
+            st.markdown("""
+            - Continue inhaled bronchodilators and oral steroids
+            - Educate patient and caregivers on:
+                - Trigger avoidance
+                - Early recognition of exacerbations
+                - Proper inhaler technique
+            - Schedule **follow-up with pulmonologist**""")
+
         st.markdown("""
-        ### 1️⃣ Immediate Assessment
-        - **Airway, Breathing, Circulation (ABCs)**
-        - **Vitals:** BP, HR, RR, SpO₂, temperature
-        - **Severity assessment:**
-            - SpO₂ < 90%
-            - PEF < 50% predicted
-            - Inability to speak full sentences
-            - Use of accessory muscles
-
-        ### 2️⃣ First Aid / Initial Measures
-        - Place patient **upright** to aid breathing
-        - **Administer high-flow oxygen** to maintain SpO₂ ≥ 94%
-        - **Continuous cardiac and SpO₂ monitoring**
-        - Establish **IV access**
-
-        ### 3️⃣ Rapid-Acting Bronchodilators
-        - **Salbutamol (Albuterol)**
-            - Nebulization: 2.5 mg every 20 min for first hour, then q1–4h
-            - Alternative: MDI with spacer if available
-        - **Ipratropium bromide**: 0.5 mg nebulization every 6–8 h
-
-        ### 4️⃣ Systemic Corticosteroids
-        - **IV Hydrocortisone:** 4–8 mg/kg/day divided q6–8h (max 300 mg/day)
-        - **Oral Prednisolone:** 1–2 mg/kg/day if patient can swallow
-        - Continue for 5–7 days
-
-        ### 5️⃣ Adjunct / Escalation Therapy
-        - **Magnesium sulfate:** 25–75 mg/kg IV over 20 min if severe obstruction persists
-        - **Aminophylline IV infusion:** 5–6 mg/kg loading, then 0.5–1 mg/kg/h
-        - **Heliox or non-invasive ventilation** if available
-
-        ### 6️⃣ Monitoring & Supportive Care
-        - Continuous ECG, SpO₂, and blood pressure
-        - Monitor mental status for CO₂ retention
-        - Repeat **PEF or spirometry** if feasible
-        - Assess response to therapy every 15–30 min
-
-        ### 7️⃣ Indications for ICU / Intubation
-        - Altered consciousness
-        - Respiratory fatigue or PaCO₂ rising
-        - Hypoxemia not improving with oxygen
-        - Impending respiratory arrest
-
-        ### 8️⃣ Discharge & Follow-up
-        - Continue inhaled bronchodilators and oral steroids
-        - Educate patient and caregivers on:
-            - Trigger avoidance
-            - Early recognition of exacerbations
-            - Proper inhaler technique
-        - Schedule **follow-up with pulmonologist**
-
         **References:**
         - AIIMS Asthma Management Guidelines, 2023  
         - GINA 2023 Guidelines (adapted for India)  
