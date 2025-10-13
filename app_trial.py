@@ -1561,7 +1561,7 @@ elif app_mode == "Indian Protocols":
             - Remaining RIG (if any) can be given **IM at site distant from vaccine**""")
 
         with st.expander("5️⃣ Monitoring & Follow-up"):
-            st.markdon("""
+            st.markdown("""
             - Complete all **vaccine doses**
             - Monitor wound for infection
             - Advise patient to report any **neurological symptoms**""")
