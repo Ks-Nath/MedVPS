@@ -7,6 +7,17 @@ from datetime import date, timedelta
 # ------------------ APP CONFIG ------------------
 st.set_page_config(page_title="Crux Med", layout="wide")
 
+# Load favicon & manifest
+st.markdown("""
+<link rel="icon" href="static/favicon.ico" type="image/x-icon">
+<link rel="manifest" href="manifest.json">
+""", unsafe_allow_html=True)
+
+# Inject install button
+with open("pwa-install.html", "r") as f:
+    st.markdown(f.read(), unsafe_allow_html=True)
+
+
 # ------------------- Hide Hamburger Menu -------------------
 hide_hamburger_css = """
 <style>
