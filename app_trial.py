@@ -5,7 +5,7 @@ import math
 from datetime import date, timedelta
 
 # ------------------ APP CONFIG ------------------
-st.set_page_config(page_title="Crux Med", layout="wide")
+st.set_page_config(page_title="Crux Med",page_icon="static/favicon.ico", layout="wide")
 
 # Load favicon & manifest
 st.markdown("""
